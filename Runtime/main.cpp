@@ -8,8 +8,23 @@
 
 #include <iostream>
 
+using namespace std;
+class Frame {
+    
+public:
+    Frame() {};
+    int a;
+};
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";
+    
+    
+    Frame* f = new Frame();
+    f->a = 10;
+    
+    cout << f->a;
+    
     return 0;
 }
