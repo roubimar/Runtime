@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "54021CBFCCF2DA83EFB1B395272CF35A5084B40E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "83D4E2DEF396A154E1A06C353B79F0DA1770F295" : 9223372036854775807,
+    "54021CBFCCF2DA83EFB1B395272CF35A5084B40E" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "0E82295A-0CA1-402A-89CC-19D0838B4D8B",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "83D4E2DEF396A154E1A06C353B79F0DA1770F295" : "..\/Runtime",
+    "54021CBFCCF2DA83EFB1B395272CF35A5084B40E" : "Runtime\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Runtime",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Runtime.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/roubimar\/Runtime.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "54021CBFCCF2DA83EFB1B395272CF35A5084B40E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/roubimar\/Runtime",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "83D4E2DEF396A154E1A06C353B79F0DA1770F295"
+    }
+  ]
+}
