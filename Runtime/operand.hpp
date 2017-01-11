@@ -13,7 +13,10 @@
 
 
 class Operand{
+public:
+    int value;
     
+    Operand(int value);
 };
 
 #endif /* operand_hpp */

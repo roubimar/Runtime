@@ -13,6 +13,7 @@
 		B6CF3C621E269F16002DD2E9 /* frame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6CF3C601E269F16002DD2E9 /* frame.cpp */; };
 		B6CF3C651E26AD7B002DD2E9 /* operand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6CF3C631E26AD7B002DD2E9 /* operand.cpp */; };
 		B6CF3C691E26BCBA002DD2E9 /* test in CopyFiles */ = {isa = PBXBuildFile; fileRef = B6CF3C551E268713002DD2E9 /* test */; };
+		B6CF3C6C1E26C503002DD2E9 /* frameStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6CF3C6A1E26C503002DD2E9 /* frameStack.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,6 +43,8 @@
 		B6CF3C631E26AD7B002DD2E9 /* operand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = operand.cpp; sourceTree = "<group>"; };
 		B6CF3C641E26AD7B002DD2E9 /* operand.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = operand.hpp; sourceTree = "<group>"; };
 		B6CF3C671E26BC05002DD2E9 /* MulNumbers.class */ = {isa = PBXFileReference; lastKnownFileType = compiled.javaclass; name = MulNumbers.class; path = Runtime/test/MulNumbers.class; sourceTree = "<group>"; };
+		B6CF3C6A1E26C503002DD2E9 /* frameStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = frameStack.cpp; sourceTree = "<group>"; };
+		B6CF3C6B1E26C503002DD2E9 /* frameStack.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = frameStack.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +88,7 @@
 		B6CF3C5A1E26871C002DD2E9 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				B6CF3C6B1E26C503002DD2E9 /* frameStack.hpp */,
 				B6CF3C641E26AD7B002DD2E9 /* operand.hpp */,
 				B6CF3C611E269F16002DD2E9 /* frame.hpp */,
 				B6CF3C4E1E268713002DD2E9 /* classFile.hpp */,
@@ -102,6 +106,7 @@
 				B6CF3C4F1E268713002DD2E9 /* classHeap.cpp */,
 				B6CF3C601E269F16002DD2E9 /* frame.cpp */,
 				B6CF3C631E26AD7B002DD2E9 /* operand.cpp */,
+				B6CF3C6A1E26C503002DD2E9 /* frameStack.cpp */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -165,6 +170,7 @@
 			files = (
 				B6CF3C571E268713002DD2E9 /* classHeap.cpp in Sources */,
 				B6CF3C621E269F16002DD2E9 /* frame.cpp in Sources */,
+				B6CF3C6C1E26C503002DD2E9 /* frameStack.cpp in Sources */,
 				B6CF3C651E26AD7B002DD2E9 /* operand.cpp in Sources */,
 				B6CF3C591E268713002DD2E9 /* main.cpp in Sources */,
 				B6CF3C561E268713002DD2E9 /* classFile.cpp in Sources */,

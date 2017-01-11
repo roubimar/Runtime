@@ -7,3 +7,17 @@
 //
 
 #include "frame.hpp"
+
+Frame::Frame(ClassFile * classFile, string method_name, string method_description) {
+    this->classFile = classFile;
+    this->method_name = method_name;
+    this->method_description = method_description;
+    pc = 0;
+    
+}
+
+int Frame::increasePc(int step)
+{
+    pc += step;
+    return pc;
+}

@@ -7,3 +7,9 @@
 //
 
 #include "operand.hpp"
+
+
+Operand::Operand(int value)
+{
+    this->value= value;
+}
