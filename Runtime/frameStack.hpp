@@ -19,7 +19,7 @@ using namespace std;
 class FrameStack{
     public:
         // Proměnné
-        stack<Frame*> stack;
+        stack<Frame*> framesStack;
         ClassFile * classFile;
         Frame * actualFrame;
     

@@ -15,14 +15,14 @@ FrameStack::FrameStack(ClassFile * classFile)
     this->classFile = classFile;
     Frame * initFrame = new Frame(classFile, "main", "([Ljava/lang/String;)V");
     
-    stack.push(initFrame);
+    framesStack.push(initFrame);
     
 }
 
 // Vykonání nejvrchnějšího framu
 void FrameStack::execute()
 {
-    actualFrame = stack.top();
+    actualFrame = framesStack.top();
     
     method_info_w_code method = classFile->getMethod(actualFrame->method_name, actualFrame->method_description);
     actualFrame->localVariables.reserve((int)method.code_attr->max_locals);
@@ -130,5 +130,5 @@ void FrameStack::iconst(int constant)
 
 void FrameStack::ret()
 {
-    stack.pop();
+    framesStack.pop();
 }
