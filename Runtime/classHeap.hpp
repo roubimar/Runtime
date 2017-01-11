@@ -4,15 +4,13 @@
 #include <map>
 #include <cstring>
 
-#include "classLoader.hpp"
 #include "classFile.hpp"
 
 using namespace std;
 
 class ClassHeap{
 	private:
-    map<string, ClassFile *> classHeap;
-		ClassLoader 					 classLoader;
+        map<string, ClassFile *> classHeap;
 	public:
 		ClassFile * getClass(string className);
 };

@@ -95,14 +95,13 @@ class ClassFile {
 
 		ClassHeap * classHeap;
 
-		int loadClass(string classFileName);
 		method_info_w_code getMethod(string methodName, string methodDescription);
 		ClassFile * 			 setClassByMethod(string p_methodName, string p_methodDescription);
 
 		int 				getAttrName(u2 attr_name_index, string &attr_name);
 		int 				getObjectSize();
 		int 				getFieldCount();
-								ClassFile(ClassHeap * pClassHeap) : classHeap(pClassHeap) {};
+                            ClassFile(string className, ClassHeap * pClassHeap);
 		string getClassNameFromRef(u2 classNameIndex);
 		string getName();
 		int 				getFieldIndex(string fieldName);

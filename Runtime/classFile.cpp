@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int ClassFile::loadClass(string classFileName)
+ClassFile::ClassFile(string classFileName, ClassHeap* pClassHeap) : classHeap(pClassHeap)
 {
 
 	ifstream file;
@@ -36,7 +36,7 @@ int ClassFile::loadClass(string classFileName)
 	if(magic != 0xCAFEBABE)
 	{
 		cout << "Magic constant is not right!:" << endl;
-		return 1;
+        throw 23;
 	}
 
 	minor_version 			= getu2(p); p += 2;
@@ -69,8 +69,6 @@ int ClassFile::loadClass(string classFileName)
 	{
 		loadAttributes(p);
 	}
-
-	return 0;
 }
 
 int ClassFile::loadConstants(char * &p)
