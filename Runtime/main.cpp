@@ -24,7 +24,7 @@ int main(int argc, char * argv[]){
         classHeap -> getClass("test/MulNumbers");
     } catch(int e) {
         if(e == 21) cout << "Out of memory exception" << endl;
-        else if( e == 25) cout << "Class file load failed. Maybe wrong Class file name?" << endl;
+        else if( e == 25) cout << "Class file load failed. Maybe wro22ng Class file name?" << endl;
         else cout << "Exception " << e << " occured" << endl;
         return 1;
     }
