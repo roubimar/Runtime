@@ -1,30 +1,36 @@
 //
 //  main.cpp
-//  Runtime
+//  Run
 //
-//  Created by Marek Roubíček on 10.01.17.
+//  Created by Marek Roubíček on 11.01.17.
 //  Copyright © 2017 FIT ČVUT - RUN. All rights reserved.
 //
 
 #include <iostream>
+#include <stack>
+
+#include "./classFile.hpp"
+#include "./classHeap.hpp"
 
 using namespace std;
-class Frame {
-    
-public:
-    Frame() {};
-    int a;
-};
 
-int main(int argc, const char * argv[]) {
-    
-    std::cout << "Hello, World!\n";
+int main(int argc, char * argv[]){
     
     
-    Frame* f = new Frame();
-    f->a = 10;
+    ClassHeap  * classHeap = new ClassHeap();
     
-    cout << f->a;
     
+    try {
+        classHeap -> getClass("test/MulNumbers");
+    } catch(int e) {
+        if(e == 21) cout << "Out of memory exception" << endl;
+        else if( e == 25) cout << "Class file load failed. Maybe wrong Class file name?" << endl;
+        else cout << "Exception " << e << " occured" << endl;
+        return 1;
+    }
+    
+    cout << "Done: " << endl;
     return 0;
+
+    
 }
