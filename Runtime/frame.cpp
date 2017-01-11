@@ -7,9 +7,3 @@
 //
 
 #include "frame.hpp"
-
-
-class frame
-{
-    
-};
