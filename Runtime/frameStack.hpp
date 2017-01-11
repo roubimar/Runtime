@@ -21,10 +21,19 @@ class FrameStack{
         // Proměnné
         stack<Frame*> stack;
         ClassFile * classFile;
+        Frame * actualFrame;
     
         // Metody
         FrameStack(ClassFile * classFile);
         void execute();
+    
+        // Instrukce
+        void def();
+        void iadd();
+        void iload(int index);
+        void istore(int index);
+        void iconst(int constant);
+        void ret();
 };
 
 #endif /* frameStack_hpp */
