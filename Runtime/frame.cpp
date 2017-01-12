@@ -23,22 +23,13 @@ Frame::~Frame()
     {
         operandStack.pop();
     }
-<<<<<<< HEAD
 
-for( vector<Operand*>::iterator i = localVariables.begin(), endI = localVariables.end(); i != endI; ++i)
-{
-	printf("dasdjiashdiuas\n");
-   delete *i;
-}
-localVariables.clear();
-=======
     for(map<int,Operand*>::iterator it = localVariables.begin(); it != localVariables.end(); it++)
     {
         delete it->second;
     }
     
     localVariables.clear();
->>>>>>> bf8f476a2985e9a4664495e6a5acbaa32d98984a
 }
 
 int Frame::increasePc(int step)
