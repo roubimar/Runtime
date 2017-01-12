@@ -30,11 +30,28 @@ class FrameStack{
     
         // Instrukce
         void def();
+        void ret();
+
+        // Integer
         void iadd();
         void iload(int index);
+        void iaload();
         void istore(int index);
         void iconst(int constant);
-        void ret();
+        void idiv();
+        void ineg();
+        void ireturn();
+        void imul();
+        void ifeq(u1 * p);
+        void ifne(u1 * p);
+        void iflt(u1 * p);
+        void ifge(u1 * p);
+        void ifgt(u1 * p);
+        void ifle(u1 * p);
+
+
+        void ifConditionIncreasePc(bool result, u1 * p);
+        
 };
 
 #endif /* frameStack_hpp */
