@@ -35,6 +35,7 @@ void FrameStack::execute()
     u1 * p = method.code_attr->code;
     while(true)
     {
+        // Vykonání jedné instrukce
         switch (p[actualFrame->pc]) {
             case 0x00:
                 
