@@ -40,7 +40,9 @@ class Frame
     
         // Metody
         Frame(ClassFile * classFile, string method_name, string method_description);
+        ~Frame();
         int increasePc(int step);
+
     
 };
 

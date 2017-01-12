@@ -35,6 +35,10 @@ int main(int argc, char * argv[]){
     }
     
     cout << "DonexXxX: " << endl;
+
+    delete classHeap;
+    printf("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\n");
+    delete frameStack;
     return 0;
 
     

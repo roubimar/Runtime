@@ -19,6 +19,15 @@ FrameStack::FrameStack(ClassFile * classFile)
     
 }
 
+FrameStack::~FrameStack(){
+    while( !framesStack.empty())
+    {
+        framesStack.pop();
+        printf("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n");
+    }
+    delete classFile;
+}
+
 // Vykonání nejvrchnějšího framu
 void FrameStack::execute()
 {
