@@ -71,7 +71,7 @@ ClassFile::ClassFile(string classFileName, ClassHeap* pClassHeap) : classHeap(pC
 	}
 
 	p = p - length + 1;
-	delete [] p;
+	//delete [] p;
 }
 
 ClassFile::~ClassFile()

@@ -101,13 +101,15 @@ void FrameStack::execute()
 
 void FrameStack::iadd()
 {
-    int firstOp = actualFrame->operandStack.top()->value;
+    Operand* firstOp = actualFrame->operandStack.top();
     actualFrame->operandStack.pop();
     
-    int secondOp = actualFrame->operandStack.top()->value;
+    Operand* secondOp = actualFrame->operandStack.top();
     actualFrame->operandStack.pop();
     
-    Operand * result = new Operand(firstOp + secondOp);
+    Operand * result = new Operand(firstOp -> value + secondOp -> value);
+    delete firstOp;
+    delete secondOp;
     actualFrame->operandStack.push(result);
     actualFrame->increasePc(1);
 }
@@ -140,4 +142,5 @@ void FrameStack::iconst(int constant)
 void FrameStack::ret()
 {
     framesStack.pop();
+    delete actualFrame;
 }

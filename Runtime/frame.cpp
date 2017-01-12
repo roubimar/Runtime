@@ -16,12 +16,20 @@ Frame::Frame(ClassFile * classFile, string method_name, string method_descriptio
     
 }
 
+
 Frame::~Frame()
 {
 	while( !operandStack.empty())
     {
         operandStack.pop();
     }
+
+for( vector<Operand*>::iterator i = localVariables.begin(), endI = localVariables.end(); i != endI; ++i)
+{
+	printf("dasdjiashdiuas\n");
+   delete *i;
+}
+localVariables.clear();
 }
 
 int Frame::increasePc(int step)

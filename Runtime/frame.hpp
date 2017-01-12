@@ -27,7 +27,7 @@ class Frame
         // Proměnné
     
         // Seznam lokálních proměnných
-        vector<Operand*> localVariables;
+        map<int, Operand*> localVariables;
         // Stack pro manipulaci s operandy dle instrukcí
         stack<Operand*> operandStack;
         // Odkaz na class file
