@@ -13,3 +13,9 @@ Operand::Operand(int value)
 {
     this->value= value;
 }
+
+Operand::~Operand()
+{
+    printf("TY HOVADO\n");
+}
+

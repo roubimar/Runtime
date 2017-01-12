@@ -25,6 +25,7 @@ class FrameStack{
     
         // Metody
         FrameStack(ClassFile * classFile);
+        ~FrameStack();
         void execute();
     
         // Instrukce

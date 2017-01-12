@@ -69,6 +69,31 @@ ClassFile::ClassFile(string classFileName, ClassHeap* pClassHeap) : classHeap(pC
 	{
 		loadAttributes(p);
 	}
+
+	p = p - length + 1;
+	delete [] p;
+}
+
+ClassFile::~ClassFile()
+{
+	for(int i = 0; i < methods_count; i++)
+	{
+//		for (int j = 0; j < methods[i].code_attr -> attribute_length; j++)
+//		{
+//			delete [] methods[i].code_attr -> attributes[j] . info;
+//		}
+		delete [] methods[i].code_attr -> code;
+		delete [] methods[i].code_attr -> attributes;
+		delete methods[i].code_attr;
+	}
+	delete [] methods;
+	delete [] fields;
+	for(int i = 0; i < attributes_count; i++)
+	{
+		delete [] attributes[i].info;
+	}
+	delete [] attributes;
+	delete [] constant_pool;
 }
 
 int ClassFile::loadConstants(char * &p)
@@ -193,6 +218,7 @@ int ClassFile::getAttrName(u2 attr_name_index, string &attr_value)
 	buffer[attr_name_length] = 0; // end string with 0
 	memcpy(buffer, pN + 3, attr_name_length);
 	attr_value = string(buffer);
+	delete [] buffer;
 	return 0;
 }
 

@@ -15,3 +15,8 @@ ClassFile * ClassHeap::getClass(string className)
 	}
 	return classHeap["test/" + className];
 }
+
+ClassHeap::~ClassHeap()
+{
+	classHeap.clear();
+}

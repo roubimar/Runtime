@@ -17,6 +17,7 @@ public:
     int value;
     
     Operand(int value);
+    ~Operand();
 };
 
 #endif /* operand_hpp */

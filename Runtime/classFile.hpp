@@ -102,6 +102,7 @@ class ClassFile {
 		int 				getObjectSize();
 		int 				getFieldCount();
                             ClassFile(string className, ClassHeap * pClassHeap);
+                            ~ClassFile();
 		string getClassNameFromRef(u2 classNameIndex);
 		string getName();
 		int 				getFieldIndex(string fieldName);

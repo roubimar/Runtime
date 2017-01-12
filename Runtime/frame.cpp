@@ -16,6 +16,14 @@ Frame::Frame(ClassFile * classFile, string method_name, string method_descriptio
     
 }
 
+Frame::~Frame()
+{
+	while( !operandStack.empty())
+    {
+        operandStack.pop();
+    }
+}
+
 int Frame::increasePc(int step)
 {
     pc += step;

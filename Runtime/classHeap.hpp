@@ -13,6 +13,7 @@ class ClassHeap{
         map<string, ClassFile *> classHeap;
 	public:
 		ClassFile * getClass(string className);
+		~ClassHeap();
 };
 
 #endif /* CLASSHEAP_HPP_ */
