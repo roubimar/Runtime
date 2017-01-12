@@ -34,11 +34,6 @@ void FrameStack::execute()
     actualFrame = framesStack.top();
     
     method_info_w_code method = classFile->getMethod(actualFrame->method_name, actualFrame->method_description);
-    actualFrame->localVariables.reserve((int)method.code_attr->max_locals);
-    
-    for (int i = 0; i == method.code_attr->max_locals; i++) {
-        actualFrame->localVariables[i] = nullptr;
-    }
     
     // Code pointer
     u1 * p = method.code_attr->code;
@@ -120,13 +115,13 @@ void FrameStack::def()
 
 void FrameStack::iload(int index)
 {
-    actualFrame->operandStack.push(actualFrame->localVariables[index]);
+    actualFrame->operandStack.push(actualFrame->loadVariable(index));
     actualFrame->increasePc(1);
 }
 
 void FrameStack::istore(int index)
 {
-    actualFrame->localVariables[index] = actualFrame->operandStack.top();
+    actualFrame->storeVariable(index, actualFrame->operandStack.top());
     actualFrame->operandStack.pop();
     actualFrame->increasePc(1);
 }
@@ -141,4 +136,5 @@ void FrameStack::iconst(int constant)
 void FrameStack::ret()
 {
     framesStack.pop();
+    delete actualFrame;
 }

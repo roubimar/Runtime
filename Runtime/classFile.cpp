@@ -70,8 +70,7 @@ ClassFile::ClassFile(string classFileName, ClassHeap* pClassHeap) : classHeap(pC
 		loadAttributes(p);
 	}
 
-	p = p - length + 1;
-	delete [] p;
+    
 }
 
 ClassFile::~ClassFile()

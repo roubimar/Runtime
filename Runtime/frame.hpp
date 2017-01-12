@@ -9,7 +9,7 @@
 #include "operand.hpp"
 #include "classFile.hpp"
 
-#include <vector>
+#include <map>
 #include <stack>
 
 
@@ -27,7 +27,7 @@ class Frame
         // Proměnné
     
         // Seznam lokálních proměnných
-        vector<Operand*> localVariables;
+        map<int, Operand*> localVariables;
         // Stack pro manipulaci s operandy dle instrukcí
         stack<Operand*> operandStack;
         // Odkaz na class file
@@ -42,6 +42,9 @@ class Frame
         Frame(ClassFile * classFile, string method_name, string method_description);
         ~Frame();
         int increasePc(int step);
+    
+        void storeVariable(int index, Operand* operand);
+        Operand * loadVariable(int index);
 
     
 };
