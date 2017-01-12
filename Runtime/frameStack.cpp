@@ -127,6 +127,7 @@ void FrameStack::execute()
             case 0x9e: //ifle
                 ifle(p);
                 break;
+          
             default:
                 break;
                 
