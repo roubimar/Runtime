@@ -23,7 +23,6 @@ FrameStack::~FrameStack(){
     while( !framesStack.empty())
     {
         framesStack.pop();
-        printf("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n");
     }
     delete classFile;
 }
