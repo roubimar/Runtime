@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Runtime/frameStack.cpp"
-            timestampString = "505916346.580653"
+            timestampString = "505917663.012478"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "FrameStack::execute()"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Runtime/frameStack.cpp"
-            timestampString = "505916346.580653"
+            timestampString = "505917663.012478"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
             landmarkName = "FrameStack::execute()"
             landmarkType = "7">
          </BreakpointContent>
@@ -160,6 +160,38 @@
             endingLineNumber = "21"
             landmarkName = "Frame::~Frame()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Frame::~Frame()"
+                  moduleName = "Runtime"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mroubicek/Documents/Playground/Runtime/Runtime/frame.cpp"
+                  timestampString = "505919621.147926"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "32">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Frame::~Frame()"
+                  moduleName = "Runtime"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mroubicek/Documents/Playground/Runtime/Runtime/frame.cpp"
+                  timestampString = "505919621.150233"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -185,11 +217,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Runtime/frameStack.cpp"
-            timestampString = "505916346.580653"
+            timestampString = "505917663.012478"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "FrameStack::iadd()"
             landmarkType = "7">
          </BreakpointContent>
@@ -201,11 +233,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Runtime/frameStack.cpp"
-            timestampString = "505916373.380377"
+            timestampString = "505917663.012478"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
             landmarkName = "FrameStack::iload(int index)"
             landmarkType = "7">
          </BreakpointContent>
@@ -217,11 +249,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Runtime/frameStack.cpp"
-            timestampString = "505916374.245423"
+            timestampString = "505917663.012478"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "FrameStack::istore(int index)"
             landmarkType = "7">
          </BreakpointContent>

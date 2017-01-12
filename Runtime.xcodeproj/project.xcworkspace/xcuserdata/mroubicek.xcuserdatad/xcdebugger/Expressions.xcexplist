@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "FrameStack::iadd():frameStack.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "(std::__1::vector&lt;Operand *, std::__1::allocator&lt;Operand *&gt; &gt;)this-&gt;actualFrame-&gt;localVariables">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
