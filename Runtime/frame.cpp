@@ -16,12 +16,14 @@ Frame::Frame(ClassFile * classFile, string method_name, string method_descriptio
     
 }
 
+
 Frame::~Frame()
 {
 	while( !operandStack.empty())
     {
         operandStack.pop();
     }
+
     for(map<int,Operand*>::iterator it = localVariables.begin(); it != localVariables.end(); it++)
     {
         delete it->second;
@@ -46,6 +48,7 @@ void Frame::storeVariable(int index, Operand* operand)
     }
     else
     {
+        printf("ahoj\n");
         delete it -> second;
         it -> second = operand;
     }
