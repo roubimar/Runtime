@@ -9,7 +9,7 @@
 #include "operand.hpp"
 #include "classFile.hpp"
 
-#include <vector>
+#include <map>
 #include <stack>
 
 
@@ -42,6 +42,9 @@ class Frame
         Frame(ClassFile * classFile, string method_name, string method_description);
         ~Frame();
         int increasePc(int step);
+    
+        void storeVariable(int index, Operand* operand);
+        Operand * loadVariable(int index);
 
     
 };
