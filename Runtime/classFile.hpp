@@ -76,6 +76,7 @@ class ClassFile {
 
 	private:
 	public:
+		char					*	codeBegin;
 		u4             				magic;
 		u2             				minor_version;
 		u2             				major_version;

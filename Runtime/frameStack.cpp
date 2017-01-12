@@ -104,8 +104,6 @@ void FrameStack::iadd()
     actualFrame->operandStack.pop();
     
     Operand * result = new Operand(firstOp -> value + secondOp -> value);
-    delete firstOp;
-    delete secondOp;
     actualFrame->operandStack.push(result);
     actualFrame->increasePc(1);
 }

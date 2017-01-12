@@ -48,6 +48,7 @@ void Frame::storeVariable(int index, Operand* operand)
     }
     else
     {
+        printf("ahoj\n");
         delete it -> second;
         it -> second = operand;
     }

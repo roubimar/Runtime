@@ -23,6 +23,7 @@ ClassFile::ClassFile(string classFileName, ClassHeap* pClassHeap) : classHeap(pC
 		length = file.tellg();
 		file.seekg(0, ios::beg);
 		p = new char[length];
+		codeBegin = &*p;
 		file.read(p, length);
 		file.close();
 	}
@@ -55,6 +56,7 @@ ClassFile::ClassFile(string classFileName, ClassHeap* pClassHeap) : classHeap(pC
 		loadInterfaces(p);
 	}
 	fields_count 				= getu2(p); p += 2;
+	fields = nullptr;
 	if(fields_count > 0)
 	{
 		loadFields(p);
@@ -69,28 +71,30 @@ ClassFile::ClassFile(string classFileName, ClassHeap* pClassHeap) : classHeap(pC
 	{
 		loadAttributes(p);
 	}
-
-<<<<<<< HEAD
-	p = p - length + 1;
-	//delete [] p;
-=======
     
->>>>>>> bf8f476a2985e9a4664495e6a5acbaa32d98984a
 }
 
 ClassFile::~ClassFile()
 {
 	for(int i = 0; i < methods_count; i++)
 	{
-//		for (int j = 0; j < methods[i].code_attr -> attribute_length; j++)
-//		{
-//			delete [] methods[i].code_attr -> attributes[j] . info;
-//		}
+		for (int j = 0; j < methods[i].code_attr -> attributes_count; j++)
+		{
+			delete [] methods[i].code_attr -> attributes[j] . info;
+		}
 		delete [] methods[i].code_attr -> code;
 		delete [] methods[i].code_attr -> attributes;
 		delete methods[i].code_attr;
 	}
 	delete [] methods;
+	for(int i = 0; i < fields_count; i++)
+	{
+		for (int j = 0; j < fields[i] . attributes_count; ++j)
+		{
+			delete [] fields[i] . attributes[j] . info;
+		}
+		
+	}
 	delete [] fields;
 	for(int i = 0; i < attributes_count; i++)
 	{
@@ -98,6 +102,7 @@ ClassFile::~ClassFile()
 	}
 	delete [] attributes;
 	delete [] constant_pool;
+	delete [] codeBegin;
 }
 
 int ClassFile::loadConstants(char * &p)
