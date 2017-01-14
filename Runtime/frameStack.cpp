@@ -58,6 +58,9 @@ void FrameStack::execute()
             case 0x1d: //iload_3
                 iload(2);
                 break;
+            case 0x3b: //istore_0
+                istore(0);
+                break;
             case 0x3c: //istore_1
                 istore(1);
                 break;
@@ -127,8 +130,11 @@ void FrameStack::execute()
             case 0x9e: //ifle
                 ifle(p);
                 break;
-          
+            case 0xb8:
+                invokestatic(p);
+                break;
             default:
+                def();
                 break;
                 
         }
@@ -307,6 +313,76 @@ void FrameStack::ifle(u1 * p)
     bool result = firstOp -> value <= 0;
 
     ifConditionIncreasePc(result, p);
+}
+
+void FrameStack::invokestatic(u1 * p)
+{
+    // index metody v konstant poolu
+    u2 methodRef = getu2(&p[actualFrame -> pc + 1]);
+
+    // z konstant poolu vybereme pozici na ktere  je metoda
+    u1 * methodPosition = (u1*)actualFrame -> classFile -> constant_pool[methodRef];
+
+    // na 4. pozici se nachazi name and type index, ktery ukazuje znovu do konstant poolu na jinou pozici, ktera obsahuje indexy na nazvem a navratovou hodnotou metody
+    u2 nameAndTypeIndex = getu2(methodPosition + 3);
+
+    // ukazatel n astrukturu, ktera obsahuje indexy na nazev a navratovou hodnotu metody
+    u1 *nameAndTypeInfo = (u1*)actualFrame -> classFile -> constant_pool[nameAndTypeIndex];
+
+    // ziskani samotnych indexu zanvu a navratovy hodnoty
+    u2 nameIndexMethod = getu2(nameAndTypeInfo + 1);
+    u2 descriptorIndex = getu2(nameAndTypeInfo + 3);
+
+    // z indexu ziskame nazev a popis metody (navratovy hodnoty)
+    string methodName, methodDescription;
+    actualFrame -> classFile -> getAttrName(nameIndexMethod, methodName);
+    actualFrame -> classFile -> getAttrName(descriptorIndex, methodDescription);
+   
+    int numberOfparams = (short)getNumberOfMethodParams(methodDescription);
+
+    // vytvoreni noveho Framu a pridani na zasobnik
+    Frame * invokedFrame = new Frame(classFile, methodName, methodDescription);
+
+    numberOfparams--;
+    // pokud ma metoda nejaky porametry, pridame je na zasobnik jejiho framu
+    for (int i = numberOfparams; i >= 0; i--)
+    {
+        Operand* o = actualFrame->operandStack.top();
+        actualFrame->operandStack.pop();
+        invokedFrame -> localVariables.insert(make_pair(i, o));
+        
+    }
+
+    framesStack.push(invokedFrame);
+
+    execute();
+}
+
+u2 FrameStack::getNumberOfMethodParams(string p_description)
+{
+	u2 	count = 0;
+	int length = p_description.size();
+
+	for (int i = 1; i < length; i++)
+	{
+		if(p_description[i] == '[')
+		{
+			continue;
+		}
+		if(p_description[i] == 'L')
+		{
+			while(p_description[i] != ';')
+			{
+				i++;
+			}
+		}
+		if(p_description[i] == ')')
+		{
+			break;
+		}
+		count++;
+	}
+	return count;
 }
 
 

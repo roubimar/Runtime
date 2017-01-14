@@ -48,6 +48,9 @@ class FrameStack{
         void ifge(u1 * p);
         void ifgt(u1 * p);
         void ifle(u1 * p);
+        void invokestatic(u1 * p);
+        u2 getNumberOfMethodParams(string p_description);
+      
 
 
         void ifConditionIncreasePc(bool result, u1 * p);

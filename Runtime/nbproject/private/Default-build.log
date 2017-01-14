@@ -1,0 +1,3 @@
+ g++ -g -std=c++11 -c -o frameStack.o frameStack.cpp
+ Linking...
+ g++ operand.o classFile.o classHeap.o frame.o frameStack.o main.o -o bin/jvm

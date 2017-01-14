@@ -2,7 +2,7 @@ CC 				:= g++
 SRCDIR 		:= .
 BUILDDIR 	:= .
 BIN 			:= bin
-TARGET 		:= bin/jvm
+TARGET 		:= bin/jvm.exe
 
 SRCEXT    := cpp
 SOURCES   := $(wildcard $(SRCDIR)/*.$(SRCEXT))
