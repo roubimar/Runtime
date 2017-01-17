@@ -7,13 +7,15 @@
 //
 
 #include "frameStack.hpp"
-
+#include "intOperand.hpp"
 
 // Konsturktor
-FrameStack::FrameStack(ClassFile * classFile)
+FrameStack::FrameStack(ClassFile * classFile, ObjectHeap *objectHeap, ClassHeap * classHeap)
 {
     this->classFile = classFile;
-    Frame * initFrame = new Frame(classFile, "main", "([Ljava/lang/String;)V");
+    this->objectHeap = objectHeap;
+    this->classHeap = classHeap;
+    Frame * initFrame = new Frame(classFile, "main", "([Ljava/lang/String;)V", objectHeap);
     
     framesStack.push(initFrame);
     
@@ -24,7 +26,6 @@ FrameStack::~FrameStack(){
     {
         framesStack.pop();
     }
-    delete classFile;
 }
 
 // Vykonání nejvrchnějšího framu
@@ -34,17 +35,15 @@ void FrameStack::execute()
     
     method_info_w_code method = classFile->getMethod(actualFrame->method_name, actualFrame->method_description);
     
-    // Code pointer
-    u1 * p = method.code_attr->code;
     while(true)
     {
         // Vykonání jedné instrukce
-        switch (p[actualFrame->pc]) {
+        switch (method.code_attr->code[actualFrame->pc]) {
             case 0x00:
-                
+                actualFrame->increasePc(1);
                 break;
             case 0x15: //iload
-                iload(p[actualFrame -> pc + 1 ]);
+                iload(method.code_attr->code[actualFrame -> pc + 1 ]);
                 break;
             case 0x1a: //iload_0
                 iload(0);
@@ -113,25 +112,52 @@ void FrameStack::execute()
                 iaload();
                 break;
             case 0x99: //ifeq
-                ifeq(p);
+                ifeq(method.code_attr->code + actualFrame->pc);
                 break;
             case 0x9a: //ifne
-                ifne(p);
+                ifne(method.code_attr->code + actualFrame->pc);
                 break;
             case 0x9b: //iflt
-                iflt(p);
+                iflt(method.code_attr->code + actualFrame->pc);
                 break;
             case 0x9c: //ifge
-                ifge(p);
+                ifge(method.code_attr->code + actualFrame->pc);
                 break;
             case 0x9d: //ifgt
-                ifgt(p);
+                ifgt(method.code_attr->code + actualFrame->pc);
                 break;
             case 0x9e: //ifle
-                ifle(p);
+                ifle(method.code_attr->code + actualFrame->pc);
                 break;
-            case 0xb8:
-                invokestatic(p);
+            case 0xb8: //invokestatic
+                invokestatic(method.code_attr->code + actualFrame->pc);
+                break;
+            case 0xbb: //new
+                _new(method.code_attr->code + actualFrame->pc);
+                break;
+            case 0x12:
+                ldc();
+                break;
+            case 0x9f: //if_icmpgt
+                ifIcmpeq(method.code_attr->code + actualFrame->pc);
+                break;
+            case 0xa0: //if_icmpgt
+                ifIcmpne(method.code_attr->code + actualFrame->pc);
+                break;
+            case 0xa1: //if_icmpgt
+                ifIcmplt(method.code_attr->code + actualFrame->pc);
+                break;
+            case 0xa2: //if_icmpgt
+                ifIcmpge(method.code_attr->code + actualFrame->pc);
+                break;
+            case 0xa3: //if_icmpgt
+                ifIcmpgt(method.code_attr->code + actualFrame->pc);
+                break;
+            case 0xa4: //if_icmpgt
+                ifIcmple(method.code_attr->code + actualFrame->pc);
+                break;
+            case 0xa7:
+                _goto(method.code_attr->code + actualFrame->pc);
                 break;
             default:
                 def();
@@ -141,15 +167,25 @@ void FrameStack::execute()
     }
 }
 
+void FrameStack::_goto(u1 * p)
+{
+    u1 firstBranchByte;
+    u1 secondBranchByte;
+
+    firstBranchByte = (u1) p[1]; 
+    secondBranchByte = (u1) p[2]; 
+    short offset = (firstBranchByte << 8) | secondBranchByte;
+    actualFrame->increasePc(offset);
+}
 void FrameStack::iadd()
 {
-    Operand* firstOp = actualFrame->operandStack.top();
+    IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
     actualFrame->operandStack.pop();
     
-    Operand* secondOp = actualFrame->operandStack.top();
+    IntOperand* secondOp = (IntOperand*)actualFrame->operandStack.top();
     actualFrame->operandStack.pop();
     
-    Operand * result = new Operand(firstOp -> value + secondOp -> value);
+    IntOperand * result = new IntOperand(firstOp -> val+ secondOp -> val);
     actualFrame->operandStack.push(result);
     actualFrame->increasePc(1);
 }
@@ -164,21 +200,30 @@ void FrameStack::def()
 */
 void FrameStack::iaload() 
 {
-    Operand* indexOp = actualFrame->operandStack.top();
+    IntOperand* indexOp = (IntOperand*)actualFrame->operandStack.top();
     actualFrame->operandStack.pop();
 
-    Operand* refOp = actualFrame->operandStack.top();
+    IntOperand* refOp = (IntOperand*)actualFrame->operandStack.top();
     actualFrame->operandStack.pop();
 
     //TODO dodelat az budou reference
     // potreba z heapu dostat pole a z nej vzit prvek podle indexu.
 }
+
+/**
+ * nacteni Operandu z localVariable Framu do operandStacku Framu
+ * @param index: pozice v local variables
+ */
 void FrameStack::iload(int index)
 {
     actualFrame->operandStack.push(actualFrame->loadVariable(index));
     actualFrame->increasePc(1);
 }
 
+/**
+ * Ulozeni Operandu z operandStacku do localVariables
+ * @param index: pozice, na kterou se ma Operand ulozit
+ */
 void FrameStack::istore(int index)
 {
     actualFrame->storeVariable(index, actualFrame->operandStack.top());
@@ -188,7 +233,7 @@ void FrameStack::istore(int index)
 
 void FrameStack::iconst(int constant)
 {
-    Operand * intOp = new Operand(constant);
+    IntOperand * intOp = new IntOperand(constant);
     actualFrame->operandStack.push(intOp);
     actualFrame->increasePc(1);
 }
@@ -201,45 +246,47 @@ void FrameStack::ret()
 
 void FrameStack::ireturn()
 {
-    Operand * tmp = actualFrame -> operandStack.top();
+    IntOperand * tmp = (IntOperand*)actualFrame -> operandStack.top();
     framesStack.pop();
     framesStack.top() -> operandStack.push(tmp);
 }
 
 
+// deleni integeru
 void FrameStack::idiv()
 {
-    Operand* firstOp = actualFrame->operandStack.top();
+    IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
     actualFrame->operandStack.pop();
     
-    Operand* secondOp = actualFrame->operandStack.top();
+    IntOperand* secondOp = (IntOperand*)actualFrame->operandStack.top();
     actualFrame->operandStack.pop();
     
-    Operand * result = new Operand(firstOp -> value / secondOp -> value);
+    IntOperand * result = new IntOperand(firstOp -> val / secondOp -> val);
     actualFrame->operandStack.push(result);
     actualFrame->increasePc(1);
 }
 
-
+// negace integeru
 void FrameStack::ineg()
 {
-    Operand* firstOp = actualFrame->operandStack.top();
+    IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
     actualFrame->operandStack.pop();
     
-    Operand * result = new Operand(firstOp -> value * -1);
+    IntOperand * result = new IntOperand(firstOp -> val * -1);
     actualFrame->operandStack.push(result);
     actualFrame->increasePc(1);
 }
 
+// nasobeni integeru
 void FrameStack::imul()
 {
-    Operand* firstOp = actualFrame->operandStack.top();
+    IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
     actualFrame->operandStack.pop();
     
-    Operand* secondOp = actualFrame->operandStack.top();
+    IntOperand* secondOp = (IntOperand*)actualFrame->operandStack.top();
     actualFrame->operandStack.pop();
     
-    Operand * result = new Operand(firstOp -> value * secondOp -> value);
+    IntOperand * result = new IntOperand(firstOp -> val * secondOp -> val);
     actualFrame->operandStack.push(result);
     actualFrame->increasePc(1);
 }
@@ -250,8 +297,8 @@ void FrameStack::ifConditionIncreasePc(bool result, u1 * p)
     u1 secondBranchByte;
     if(result) 
     {
-        firstBranchByte = (u1) p[actualFrame -> pc + 1]; 
-        secondBranchByte = (u1) p[actualFrame -> pc + 2]; 
+        firstBranchByte = (u1) p[1]; 
+        secondBranchByte = (u1) p[2]; 
         short offset = (firstBranchByte << 8) | secondBranchByte;
         actualFrame->increasePc(offset);
     } 
@@ -261,60 +308,144 @@ void FrameStack::ifConditionIncreasePc(bool result, u1 * p)
     }
 }
 
+// porovnani jestli je integer == 0
 void FrameStack::ifeq(u1 * p)
 {
-    Operand* firstOp = actualFrame->operandStack.top();
+    IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
 
-    bool result = firstOp -> value == 0;
+    bool result = firstOp -> val == 0;
 
     ifConditionIncreasePc(result, p);
 }
 
+// porovnani jestli se integer != 0
 void FrameStack::ifne(u1 * p)
 {
-    Operand* firstOp = actualFrame->operandStack.top();
+    IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
 
-    bool result = firstOp -> value != 0;
+    bool result = firstOp -> val != 0;
 
     ifConditionIncreasePc(result, p);
 }
 
+// porovnani jestli je integer < 0
 void FrameStack::iflt(u1 * p)
 {
-    Operand* firstOp = actualFrame->operandStack.top();
+    IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
 
-    bool result = firstOp -> value < 0;
+    bool result = firstOp -> val < 0;
 
     ifConditionIncreasePc(result, p);
 }
 
+// porovnani jestli je integer >= 0
 void FrameStack::ifge(u1 * p)
 {
-    Operand* firstOp = actualFrame->operandStack.top();
+    IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
 
-    bool result = firstOp -> value >= 0;
+    bool result = firstOp -> val >= 0;
 
     ifConditionIncreasePc(result, p);
 }
 
+// porovnani jestli je integer > 0
 void FrameStack::ifgt(u1 * p)
 {
-    Operand* firstOp = actualFrame->operandStack.top();
+    IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
 
-    bool result = firstOp -> value > 0;
+    bool result = firstOp -> val > 0;
 
     ifConditionIncreasePc(result, p);
 }
 
+// porovnani jestli je integer <= 0
 void FrameStack::ifle(u1 * p)
 {
-    Operand* firstOp = actualFrame->operandStack.top();
+    IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
 
-    bool result = firstOp -> value <= 0;
+    bool result = firstOp -> val <= 0;
 
     ifConditionIncreasePc(result, p);
 }
 
+// porovnani dvou integeru jestli je prvni >= druhy
+void FrameStack::ifIcmpgt(u1 * p)
+{
+    IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
+    actualFrame->operandStack.pop();
+    
+    IntOperand* secondOp = (IntOperand*)actualFrame->operandStack.top();
+    actualFrame->operandStack.pop();
+    
+    ifConditionIncreasePc(firstOp -> val < secondOp -> val, p);
+}
+
+
+// porovnani dvou integeru jestli se prvni = druhy
+void FrameStack::ifIcmpeq(u1 * p)
+{
+    IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
+    actualFrame->operandStack.pop();
+    
+    IntOperand* secondOp = (IntOperand*)actualFrame->operandStack.top();
+    actualFrame->operandStack.pop();
+    
+    ifConditionIncreasePc(firstOp -> val == secondOp -> val, p);
+}
+
+
+// porovnani dvou integeru jestli se prvni mensi != druhy
+void FrameStack::ifIcmpne(u1 * p)
+{
+    IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
+    actualFrame->operandStack.pop();
+    
+    IntOperand* secondOp = (IntOperand*)actualFrame->operandStack.top();
+    actualFrame->operandStack.pop();
+    
+    ifConditionIncreasePc(firstOp -> val != secondOp -> val, p);
+}
+
+
+// porovnani dvou integeru jestli je prvni mensi <= druhy
+void FrameStack::ifIcmplt(u1 * p)
+{
+    IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
+    actualFrame->operandStack.pop();
+    
+    IntOperand* secondOp = (IntOperand*)actualFrame->operandStack.top();
+    actualFrame->operandStack.pop();
+    
+    ifConditionIncreasePc(firstOp -> val > secondOp -> val, p);
+}
+
+
+// porovnani dvou integeru jestli je prvni mensi > druhy
+void FrameStack::ifIcmple(u1 * p)
+{
+    IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
+    actualFrame->operandStack.pop();
+    
+    IntOperand* secondOp = (IntOperand*)actualFrame->operandStack.top();
+    actualFrame->operandStack.pop();
+    
+    ifConditionIncreasePc(firstOp -> val <= secondOp -> val, p);
+}
+
+
+// porovnani dvou integeru jestli je prvni mensi > druhy
+void FrameStack::ifIcmpge(u1 * p)
+{
+    IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
+    actualFrame->operandStack.pop();
+    
+    IntOperand* secondOp = (IntOperand*)actualFrame->operandStack.top();
+    actualFrame->operandStack.pop();
+    
+    ifConditionIncreasePc(firstOp -> val <= secondOp -> val, p);
+}
+
+// zavolani metody
 void FrameStack::invokestatic(u1 * p)
 {
     // index metody v konstant poolu
@@ -326,7 +457,7 @@ void FrameStack::invokestatic(u1 * p)
     // na 4. pozici se nachazi name and type index, ktery ukazuje znovu do konstant poolu na jinou pozici, ktera obsahuje indexy na nazvem a navratovou hodnotou metody
     u2 nameAndTypeIndex = getu2(methodPosition + 3);
 
-    // ukazatel n astrukturu, ktera obsahuje indexy na nazev a navratovou hodnotu metody
+    // ukazatel na strukturu, ktera obsahuje indexy na nazev a navratovou hodnotu metody
     u1 *nameAndTypeInfo = (u1*)actualFrame -> classFile -> constant_pool[nameAndTypeIndex];
 
     // ziskani samotnych indexu zanvu a navratovy hodnoty
@@ -341,7 +472,7 @@ void FrameStack::invokestatic(u1 * p)
     int numberOfparams = (short)getNumberOfMethodParams(methodDescription);
 
     // vytvoreni noveho Framu a pridani na zasobnik
-    Frame * invokedFrame = new Frame(classFile, methodName, methodDescription);
+    Frame * invokedFrame = new Frame(classFile, methodName, methodDescription, objectHeap);
 
     numberOfparams--;
     // pokud ma metoda nejaky porametry, pridame je na zasobnik jejiho framu
@@ -349,7 +480,7 @@ void FrameStack::invokestatic(u1 * p)
     {
         Operand* o = actualFrame->operandStack.top();
         actualFrame->operandStack.pop();
-        invokedFrame -> localVariables.insert(make_pair(i, o));
+        invokedFrame->storeVariable(i, o);
         
     }
 
@@ -384,6 +515,59 @@ u2 FrameStack::getNumberOfMethodParams(string p_description)
 	}
 	return count;
 }
+
+
+u4 FrameStack::_new(u1 * p)
+{
+        // index metody v konstant poolu
+        u2 methodRef = getu2(&p[actualFrame -> pc + 1]);
+        
+        // z konstant poolu vybereme pozici na ktere  je metoda
+        u1 * methodPosition = (u1*)actualFrame -> classFile -> constant_pool[methodRef];
+
+	u2 classNameIndex = getu2(methodPosition + 1);
+
+	std::string className;
+	actualFrame -> classFile -> getAttrName(classNameIndex, className);
+
+        actualFrame->increasePc(3);
+        
+        // TODO vytvorit na heape
+	//return objectHeap -> createObject(classFile);
+}
+
+void FrameStack::ldc()
+{
+        //TODO
+//Operand * valueOp = new RefOperand( loadConstant());
+				
+				//frame -> pushOperand(valueOp);
+				//frame -> movePc(2);
+}
+
+int FrameStack::loadConstant(u1 * p)
+{
+	u1 constPoolIndex = getu1(&p[actualFrame -> pc + 1]);
+
+	u1 * constPoolInfo = (u1*)actualFrame -> classFile -> constant_pool[constPoolIndex];
+
+	switch(constPoolInfo[0])
+	{
+		case CONSTANT_Integer:
+
+			break;
+		case CONSTANT_Float:
+
+			break;
+		case CONSTANT_String:
+			u2 constPoolUtfIndex = getu2(constPoolInfo + 1);
+			string stringValue;
+			actualFrame -> classFile -> getAttrName(constPoolUtfIndex, stringValue);
+			return objectHeap -> createStringObject(stringValue);
+	}
+	return -1;
+}
+
 
 
 

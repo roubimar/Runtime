@@ -6,8 +6,12 @@
       <in>classHeap.cpp</in>
       <in>frame.cpp</in>
       <in>frameStack.cpp</in>
+      <in>intOperand.cpp</in>
       <in>main.cpp</in>
+      <in>objectHeap.cpp</in>
       <in>operand.cpp</in>
+      <in>refOperand.cpp</in>
+      <in>stringOperand.cpp</in>
     </df>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -68,11 +72,27 @@
         <ccTool flags="0">
         </ccTool>
       </item>
+      <item path="intOperand.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
         </ccTool>
       </item>
+      <item path="objectHeap.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
       <item path="operand.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="refOperand.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="stringOperand.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
         </ccTool>
       </item>

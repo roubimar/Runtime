@@ -2,19 +2,19 @@
 #include <iostream>
 #include <cstring>
 
-#include "./classFile.hpp"
-#include "./definitions.hpp"
-#include "./classHeap.hpp"
+#include "classFile.hpp"
+#include "classHeap.hpp"
+#include "objectHeap.hpp"
 
 using namespace std;
 
-ClassFile::ClassFile(string classFileName, ClassHeap* pClassHeap) : classHeap(pClassHeap)
+ClassFile::ClassFile(string classFileName, ClassHeap* pClassHeap, ObjectHeap* objectHeap) : classHeap(pClassHeap)
 {
 
 	ifstream file;
 	int length;
 	char * p;
-
+        this -> objectHeap = objectHeap;
 	file.open(classFileName.c_str());
 
 	if(file.is_open())
@@ -71,6 +71,7 @@ ClassFile::ClassFile(string classFileName, ClassHeap* pClassHeap) : classHeap(pC
 	{
 		loadAttributes(p);
 	}
+        initInstanceVar();
     
 }
 
@@ -103,6 +104,7 @@ ClassFile::~ClassFile()
 	delete [] attributes;
 	delete [] constant_pool;
 	delete [] codeBegin;
+        delete [] instanceVar;
 }
 
 int ClassFile::loadConstants(char * &p)
@@ -353,7 +355,7 @@ method_info_w_code ClassFile::getMethod(string methodName, string methodDescript
 	}
 	if(super_class != 0)
 	{
-		return classHeap -> getClass(getClassNameFromRef(super_class)) -> getMethod(methodName, methodDescription);
+		return classHeap -> getClass(getClassNameFromRef(super_class), objectHeap) -> getMethod(methodName, methodDescription);
 	}
 	throw 20;
 }
@@ -372,7 +374,7 @@ ClassFile * ClassFile::setClassByMethod(string p_methodName, string p_methodDesc
 	}
 	if(super_class != 0)
 	{
-		return classHeap -> getClass(getClassNameFromRef(super_class)) -> setClassByMethod(p_methodName, p_methodDescription);
+		return classHeap -> getClass(getClassNameFromRef(super_class), objectHeap) -> setClassByMethod(p_methodName, p_methodDescription);
 	}
 	throw 23;
 }
@@ -390,7 +392,7 @@ int ClassFile::getFieldCount()
 	if(super_class == 0)
 		return fields_count;
 	else
-		return fields_count + classHeap -> getClass(getClassNameFromRef(super_class)) -> getFieldCount();
+		return fields_count + classHeap -> getClass(getClassNameFromRef(super_class), objectHeap) -> getFieldCount();
 }
 
 string ClassFile::getClassNameFromRef(u2 classIndex)
@@ -427,7 +429,7 @@ int ClassFile::getFieldIndex(string fieldName)
 	if(super_class != 0)
 	{
 		string className = getClassNameFromRef(super_class);
-		fieldIndex = classHeap -> getClass(className) -> getObjectSize();
+		fieldIndex = classHeap -> getClass(className, objectHeap) -> getObjectSize();
 	}
 	for (int i = 0; i < fields_count; i++)
 	{
@@ -441,7 +443,16 @@ int ClassFile::getFieldIndex(string fieldName)
 	if(super_class != 0)
 	{
 		string className = getClassNameFromRef(super_class);
-		fieldIndex = classHeap -> getClass(className) -> getFieldIndex(fieldName);
+		fieldIndex = classHeap -> getClass(className, objectHeap) -> getFieldIndex(fieldName);
 	}
 	return fieldIndex;
+}
+
+void ClassFile::initInstanceVar()
+{
+    instanceVar = new int[attributes[0] . attribute_length ];
+    for(int i = 0; i < attributes[0] . attribute_length; i++)
+    {
+        instanceVar[i] = objectHeap -> createOperand();
+    }
 }

@@ -1,16 +1,16 @@
 
-#include "./classHeap.hpp"
-#include "./classFile.hpp"
+#include "classHeap.hpp"
+#include "classFile.hpp"
 
 using namespace std;
 
-ClassFile * ClassHeap::getClass(string className)
+ClassFile * ClassHeap::getClass(string className, ObjectHeap * objectHeap)
 {
 	map<string, ClassFile *>::iterator it;
 	it = classHeap.find(className);
 	if(it == classHeap.end())
 	{
-		ClassFile * insertClass = new ClassFile("test/" + className +".class", this);
+		ClassFile * insertClass = new ClassFile("test/" + className +".class", this, objectHeap);
 		classHeap . insert( pair<string, ClassFile *>(insertClass -> getName(), insertClass ) );
 	}
 	return classHeap["test/" + className];

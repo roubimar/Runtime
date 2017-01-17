@@ -12,6 +12,7 @@
 #include "./classFile.hpp"
 #include "./classHeap.hpp"
 #include "./frameStack.hpp"
+#include "./objectHeap.hpp"
 
 using namespace std;
 
@@ -20,10 +21,11 @@ int main(int argc, char * argv[]){
     
     ClassHeap  * classHeap = new ClassHeap();
     FrameStack * frameStack;
+    ObjectHeap * objectHeap = new ObjectHeap();
 
     
     try {
-        frameStack = new FrameStack(classHeap->getClass("Main"));
+        frameStack = new FrameStack(classHeap->getClass("CompareNumbers", objectHeap), objectHeap, classHeap);
         
         frameStack->execute();
         

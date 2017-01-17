@@ -10,6 +10,9 @@
 #define frameStack_hpp
 
 #include "frame.hpp"
+#include "objectHeap.hpp"
+#include "classHeap.hpp"
+#include "classFile.hpp"
 
 #include <stdio.h>
 #include <stack>
@@ -22,9 +25,11 @@ class FrameStack{
         stack<Frame*> framesStack;
         ClassFile * classFile;
         Frame * actualFrame;
-    
+        ObjectHeap * objectHeap;
+        ClassHeap  * classHeap;
+        u1 * p;
         // Metody
-        FrameStack(ClassFile * classFile);
+        FrameStack(ClassFile * classFile, ObjectHeap *objectHeap, ClassHeap * classHeap);
         ~FrameStack();
         void execute();
     
@@ -48,8 +53,18 @@ class FrameStack{
         void ifge(u1 * p);
         void ifgt(u1 * p);
         void ifle(u1 * p);
+        void ifIcmpgt(u1 * p);
+        void ifIcmpeq(u1 * p);
+        void ifIcmpne(u1 * p);
+        void ifIcmpge(u1 * p);
+        void ifIcmplt(u1 * p);
+        void ifIcmple(u1 * p);
+        void _goto(u1 * p);
         void invokestatic(u1 * p);
         u2 getNumberOfMethodParams(string p_description);
+        u4 _new(u1 * p);
+        void ldc();
+        int loadConstant(u1 * p);
       
 
 

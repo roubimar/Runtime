@@ -15,7 +15,7 @@
 
 
 using namespace std;
-
+class ObjectHeap;
 #ifndef frame_hpp
 #define frame_hpp
 
@@ -27,7 +27,7 @@ class Frame
         // Proměnné
     
         // Seznam lokálních proměnných
-        map<int, Operand*> localVariables;
+        int * localVariables;
         // Stack pro manipulaci s operandy dle instrukcí
         stack<Operand*> operandStack;
         // Odkaz na class file
@@ -37,14 +37,18 @@ class Frame
         string method_description;
         // Program counter
         int pc;
-    
+        
+        int maxLocals;
+        
+        ObjectHeap * objectHeap;
         // Metody
-        Frame(ClassFile * classFile, string method_name, string method_description);
+        Frame(ClassFile * classFile, string method_name, string method_description, ObjectHeap* objectHeap);
         ~Frame();
         int increasePc(int step);
     
         void storeVariable(int index, Operand* operand);
         Operand * loadVariable(int index);
+        void initLocalVar();
 
     
 };

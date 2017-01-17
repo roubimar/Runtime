@@ -3,6 +3,7 @@ SRCDIR 		:= .
 BUILDDIR 	:= .
 BIN 			:= bin
 TARGET 		:= bin/jvm.exe
+TARGET2 	:= ./bin/jvm.exe
 
 SRCEXT    := cpp
 SOURCES   := $(wildcard $(SRCDIR)/*.$(SRCEXT))
@@ -22,7 +23,7 @@ $(BIN):
 
 clean:
 	@echo " Cleaning..."; 
-	@echo " $(RM) -r $(BUILDDIR) $(TARGET)"; $(RM) -r $(BUILDDIR) $(TARGET)
+	@echo " $(RM) -r $(TARGET2)"; $(RM) -r $(TARGET2)
 
 # Tests
 #tester:

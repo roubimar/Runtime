@@ -4,15 +4,17 @@
 #include <map>
 #include <cstring>
 
-#include "classFile.hpp"
 
 using namespace std;
+class ClassFile;
+class ObjectHeap;
 
 class ClassHeap{
 	private:
         map<string, ClassFile *> classHeap;
 	public:
-		ClassFile * getClass(string className);
+                
+		ClassFile * getClass(string className, ObjectHeap* objectHeap);
 		~ClassHeap();
 };
 
