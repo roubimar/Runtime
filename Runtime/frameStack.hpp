@@ -65,6 +65,7 @@ class FrameStack{
         u4 _new(u1 * p);
         void ldc();
         int loadConstant(u1 * p);
+        void iinc(u1 * p);
       
 
 

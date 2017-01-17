@@ -44,6 +44,7 @@ void FrameStack::execute()
                 break;
             case 0x15: //iload
                 iload(method.code_attr->code[actualFrame -> pc + 1 ]);
+                actualFrame->increasePc(1);
                 break;
             case 0x1a: //iload_0
                 iload(0);
@@ -57,6 +58,10 @@ void FrameStack::execute()
             case 0x1d: //iload_3
                 iload(2);
                 break;
+            case 0x36:
+                istore(method.code_attr->code[actualFrame -> pc + 1 ]);
+                actualFrame->increasePc(1);
+                break;	
             case 0x3b: //istore_0
                 istore(0);
                 break;
@@ -156,8 +161,11 @@ void FrameStack::execute()
             case 0xa4: //if_icmpgt
                 ifIcmple(method.code_attr->code + actualFrame->pc);
                 break;
-            case 0xa7:
+            case 0xa7: //goto
                 _goto(method.code_attr->code + actualFrame->pc);
+                break;
+            case 0x84: //iinc
+                iinc(method.code_attr->code + actualFrame->pc);
                 break;
             default:
                 def();
@@ -165,6 +173,17 @@ void FrameStack::execute()
                 
         }
     }
+}
+
+/**
+ * pricist k promenny z localVar na pozici p[1] cislo z p[2]
+ * @param p ukazatel na aktualni funkci
+ */
+void FrameStack::iinc(u1 * p)
+{
+    IntOperand* operand = (IntOperand*)actualFrame -> loadVariable(p[1]);
+    operand->val += p[2];
+    actualFrame -> increasePc(3);
 }
 
 void FrameStack::_goto(u1 * p)
