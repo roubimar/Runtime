@@ -9,6 +9,10 @@
           <df name="lang">
           </df>
         </df>
+        <df name="our">
+          <df name="objects">
+          </df>
+        </df>
       </df>
       <in>classFile.cpp</in>
       <in>classFile.hpp</in>

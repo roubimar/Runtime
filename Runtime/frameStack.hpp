@@ -66,6 +66,10 @@ class FrameStack{
         void ldc();
         int loadConstant(u1 * p);
         void iinc(u1 * p);
+        void executeNativeMethod();
+        void printString();
+        void printInt();
+        void readString();
       
 
 

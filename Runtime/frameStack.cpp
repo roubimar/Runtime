@@ -6,8 +6,10 @@
 //  Copyright © 2017 FIT ČVUT - RUN. All rights reserved.
 //
 
+#include <iostream>
 #include "frameStack.hpp"
 #include "intOperand.hpp"
+#include "stringOperand.hpp"
 
 // Konsturktor
 FrameStack::FrameStack(ClassFile * classFile, ObjectHeap *objectHeap, ClassHeap * classHeap)
@@ -32,6 +34,12 @@ FrameStack::~FrameStack(){
 void FrameStack::execute()
 {
     actualFrame = framesStack.top();
+    
+    if(classFile -> getMethod(actualFrame -> method_name, actualFrame -> method_description). access_flags & ACC_NATIVE )
+    {
+	executeNativeMethod();
+	return;
+    }
     
     method_info_w_code method = classFile->getMethod(actualFrame->method_name, actualFrame->method_description);
     
@@ -261,6 +269,7 @@ void FrameStack::ret()
 {
     framesStack.pop();
     delete actualFrame;
+    actualFrame = framesStack.top();
 }
 
 void FrameStack::ireturn()
@@ -268,6 +277,8 @@ void FrameStack::ireturn()
     IntOperand * tmp = (IntOperand*)actualFrame -> operandStack.top();
     framesStack.pop();
     framesStack.top() -> operandStack.push(tmp);
+    delete actualFrame;
+    actualFrame = framesStack.top();
 }
 
 
@@ -539,14 +550,14 @@ u2 FrameStack::getNumberOfMethodParams(string p_description)
 u4 FrameStack::_new(u1 * p)
 {
         // index metody v konstant poolu
-        u2 methodRef = getu2(&p[actualFrame -> pc + 1]);
+        u2 methodRef = getu2(p[1]);
         
         // z konstant poolu vybereme pozici na ktere  je metoda
         u1 * methodPosition = (u1*)actualFrame -> classFile -> constant_pool[methodRef];
 
 	u2 classNameIndex = getu2(methodPosition + 1);
 
-	std::string className;
+	string className;
 	actualFrame -> classFile -> getAttrName(classNameIndex, className);
 
         actualFrame->increasePc(3);
@@ -585,6 +596,65 @@ int FrameStack::loadConstant(u1 * p)
 			return objectHeap -> createStringObject(stringValue);
 	}
 	return -1;
+}
+
+
+void FrameStack::executeNativeMethod()
+{
+    string className = actualFrame -> classFile -> getName();
+    string methodName = actualFrame -> method_name;
+    string methodDescription = actualFrame -> method_description;
+        
+    string methodSignature = className + "." + methodName + ":" + methodDescription;
+	 
+
+    if(methodSignature.compare("java/io/PrintStream.print:(Ljava/lang/String;)V") == 0) 
+    {
+    	printString();
+    } 
+    else
+    {
+        if(methodSignature.compare("java/io/PrintStream.print:(I)V") == 0) 
+        {
+            printInt();
+	} 
+        else 
+        {
+            if(methodSignature.compare("test/our/objects/StdInputReader.readString:()Ljava/lang/String;") == 0) 
+            {
+		readString();
+            } 
+        }
+    }
+}
+
+void FrameStack::printString()
+{
+    StringOperand* operand = (StringOperand*) actualFrame -> loadVariable(0);
+    cout << operand -> val << endl;
+    framesStack.pop();
+    actualFrame = framesStack.top();
+}
+
+
+void FrameStack::printInt()
+{
+    IntOperand* operand = (IntOperand*) actualFrame -> loadVariable(0);
+    cout << operand -> val << endl;
+    framesStack.pop();
+    actualFrame = framesStack.top();
+}
+
+
+void FrameStack::readString()
+{
+    string input;
+    cin >> input;
+    StringOperand* operand = new StringOperand(input);
+    
+    framesStack.pop();
+    framesStack.top() -> operandStack.push(operand);
+    actualFrame = framesStack.top();
 }
 
 
