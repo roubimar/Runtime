@@ -143,8 +143,11 @@ void FrameStack::execute()
             case 0x9e: //ifle
                 ifle(method.code_attr->code + actualFrame->pc);
                 break;
+            case 0xb7: //invokespecial
+                invoke(method.code_attr->code + actualFrame->pc, false);
+                break;
             case 0xb8: //invokestatic
-                invokestatic(method.code_attr->code + actualFrame->pc);
+                invoke(method.code_attr->code + actualFrame->pc, true);
                 break;
             case 0xbb: //new
                 _new(method.code_attr->code + actualFrame->pc);
@@ -489,7 +492,7 @@ void FrameStack::ifIcmpge(u1 * p)
 }
 
 // zavolani metody
-void FrameStack::invokestatic(u1 * p)
+void FrameStack::invoke(u1 * p, bool lessParams)
 {
     // index metody v konstant poolu
     u2 methodRef = getu2(&p[actualFrame -> pc + 1]);
@@ -516,8 +519,17 @@ void FrameStack::invokestatic(u1 * p)
 
     // vytvoreni noveho Framu a pridani na zasobnik
     Frame * invokedFrame = new Frame(classFile, methodName, methodDescription, objectHeap);
-
-    numberOfparams--;
+    
+    if(classFile -> getMethod(actualFrame -> method_name, actualFrame -> method_description). access_flags & ACC_NATIVE )
+    {
+	executeNativeMethod();
+	return;
+    }
+    
+    if(lessParams || classFile -> getMethod(invokedFrame -> method_name, actualFrame -> method_description). access_flags & ACC_NATIVE)
+    {
+        numberOfparams--;
+    }
     // pokud ma metoda nejaky porametry, pridame je na zasobnik jejiho framu
     for (int i = numberOfparams; i >= 0; i--)
     {

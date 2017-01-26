@@ -60,7 +60,7 @@ class FrameStack{
         void ifIcmplt(u1 * p);
         void ifIcmple(u1 * p);
         void _goto(u1 * p);
-        void invokestatic(u1 * p);
+        void invoke(u1 * p, bool lessParams);
         u2 getNumberOfMethodParams(string p_description);
         u4 _new(u1 * p);
         void ldc();
