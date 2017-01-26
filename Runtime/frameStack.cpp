@@ -8,8 +8,9 @@
 
 #include <iostream>
 #include "frameStack.hpp"
-#include "intOperand.hpp"
-#include "stringOperand.hpp"
+#include "operands/intOperand.hpp"
+#include "operands/stringOperand.hpp"
+#include "operands/classOperand.hpp"
 
 // Konsturktor
 FrameStack::FrameStack(ClassFile * classFile, ObjectHeap *objectHeap, ClassHeap * classHeap)
@@ -175,12 +176,24 @@ void FrameStack::execute()
             case 0x84: //iinc
                 iinc(method.code_attr->code + actualFrame->pc);
                 break;
+            case 0x59:// dup
+                dup();
+                break;
             default:
                 def();
                 break;
                 
         }
     }
+}
+
+/**
+ * nakopiruje na operand stack to co je na vrcholu
+ */
+void FrameStack::dup()
+{
+    actualFrame -> operandStack.push(actualFrame -> operandStack.top());
+    actualFrame -> increasePc(1);
 }
 
 /**
@@ -560,10 +573,12 @@ u4 FrameStack::_new(u1 * p)
 	string className;
 	actualFrame -> classFile -> getAttrName(classNameIndex, className);
 
-        actualFrame->increasePc(3);
+        ClassFile* newClassFile = classHeap -> getClass(className, objectHeap);
+        ClassOperand* classOperand = new ClassOperand(newClassFile);
         
-        // TODO vytvorit na heape
-	//return objectHeap -> createObject(classFile);
+        actualFrame->operandStack.push(classOperand);
+        
+        actualFrame->increasePc(3);
 }
 
 void FrameStack::ldc()

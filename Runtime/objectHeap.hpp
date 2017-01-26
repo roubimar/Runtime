@@ -1,7 +1,7 @@
 #ifndef objectHeap_hpp
 #define objectHeap_hpp
 
-#include "operand.hpp"
+#include "operands/operand.hpp"
 #include "classFile.hpp"
 #include "GarbageCollector.hpp"
 

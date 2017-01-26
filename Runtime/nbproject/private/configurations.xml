@@ -4,6 +4,18 @@
     <df root="." name="0">
       <df name="bin">
       </df>
+      <df name="operands">
+        <in>classOperand.cpp</in>
+        <in>classOperand.hpp</in>
+        <in>intOperand.cpp</in>
+        <in>intOperand.hpp</in>
+        <in>operand.cpp</in>
+        <in>operand.hpp</in>
+        <in>refOperand.cpp</in>
+        <in>refOperand.hpp</in>
+        <in>stringOperand.cpp</in>
+        <in>stringOperand.hpp</in>
+      </df>
       <df name="test">
         <df name="java">
           <df name="lang">
@@ -25,17 +37,9 @@
       <in>frame.hpp</in>
       <in>frameStack.cpp</in>
       <in>frameStack.hpp</in>
-      <in>intOperand.cpp</in>
-      <in>intOperand.hpp</in>
       <in>main.cpp</in>
       <in>objectHeap.cpp</in>
       <in>objectHeap.hpp</in>
-      <in>operand.cpp</in>
-      <in>operand.hpp</in>
-      <in>refOperand.cpp</in>
-      <in>refOperand.hpp</in>
-      <in>stringOperand.cpp</in>
-      <in>stringOperand.hpp</in>
     </df>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>

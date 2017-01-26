@@ -70,6 +70,7 @@ class FrameStack{
         void printString();
         void printInt();
         void readString();
+        void dup();
       
 
 

@@ -2,17 +2,20 @@
 <configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="." name="0">
+      <df name="operands">
+        <in>classOperand.cpp</in>
+        <in>intOperand.cpp</in>
+        <in>operand.cpp</in>
+        <in>refOperand.cpp</in>
+        <in>stringOperand.cpp</in>
+      </df>
       <in>GarbageCollector.cpp</in>
       <in>classFile.cpp</in>
       <in>classHeap.cpp</in>
       <in>frame.cpp</in>
       <in>frameStack.cpp</in>
-      <in>intOperand.cpp</in>
       <in>main.cpp</in>
       <in>objectHeap.cpp</in>
-      <in>operand.cpp</in>
-      <in>refOperand.cpp</in>
-      <in>stringOperand.cpp</in>
     </df>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -71,6 +74,13 @@
           </incDir>
         </ccTool>
       </item>
+      <folder path="0/operands">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
       <item path="frame.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
           <incDir>
@@ -82,13 +92,6 @@
         <ccTool flags="1">
         </ccTool>
       </item>
-      <item path="intOperand.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </ccTool>
-      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="1">
         </ccTool>
@@ -97,25 +100,24 @@
         <ccTool flags="1">
         </ccTool>
       </item>
-      <item path="operand.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
+      <item path="operands/classOperand.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="1">
         </ccTool>
       </item>
-      <item path="refOperand.cpp" ex="false" tool="1" flavor2="8">
+      <item path="operands/intOperand.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
         </ccTool>
       </item>
-      <item path="stringOperand.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
+      <item path="operands/operand.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="operands/refOperand.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="operands/stringOperand.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="1">
         </ccTool>
       </item>
     </conf>

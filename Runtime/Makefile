@@ -6,7 +6,7 @@ TARGET 		:= bin/jvm.exe
 TARGET2 	:= ./bin/jvm.exe
 
 SRCEXT    := cpp
-SOURCES   := $(wildcard $(SRCDIR)/*.$(SRCEXT))
+SOURCES   := $(wildcard $(SRCDIR)/*.$(SRCEXT)) $(wildcard $(SRCDIR)/operands/*.$(SRCEXT))
 OBJECTS   := $(subst $(SRCDIR),$(BUILDDIR),$(SOURCES:.cpp=.o))
 
 CFLAGS := -g -std=c++11
@@ -16,6 +16,7 @@ $(TARGET): $(OBJECTS) | $(BIN)
 	@echo " $(CC) $^ -o $(TARGET)"; $(CC) $^ -o $(TARGET) 
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
+	@mkdir -p $(BUILDDIR) $(BUILDDIR)/operands
 	@echo " $(CC) $(CFLAGS) -c -o $@ $<"; $(CC) $(CFLAGS) -c -o $@ $<
 
 $(BIN):

@@ -6,7 +6,7 @@
 //  Copyright © 2017 FIT ČVUT - RUN. All rights reserved.
 //
 
-#include "operand.hpp"
+#include "operands/operand.hpp"
 #include "classFile.hpp"
 
 #include <map>
