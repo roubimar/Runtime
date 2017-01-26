@@ -143,6 +143,7 @@ void FrameStack::execute()
             case 0x9e: //ifle
                 ifle(method.code_attr->code + actualFrame->pc);
                 break;
+            case 0xb6: //invokevirtual
             case 0xb7: //invokespecial
                 invoke(method.code_attr->code + actualFrame->pc, false);
                 break;
@@ -179,8 +180,14 @@ void FrameStack::execute()
             case 0x84: //iinc
                 iinc(method.code_attr->code + actualFrame->pc);
                 break;
-            case 0x59:// dup
+            case 0x59: //dup
                 dup();
+                break;
+            case 0x57: //pop
+                pop();
+                break;
+            case 0xb2: //getstatic
+                getStatic();
                 break;
             default:
                 def();
@@ -190,12 +197,25 @@ void FrameStack::execute()
     }
 }
 
+void FrameStack::getStatic()
+{
+    actualFrame -> increasePc(3);
+}
 /**
  * nakopiruje na operand stack to co je na vrcholu
  */
 void FrameStack::dup()
 {
     actualFrame -> operandStack.push(actualFrame -> operandStack.top());
+    actualFrame -> increasePc(1);
+}
+
+/**
+ * pop z operand zasobniku
+ */
+void FrameStack::pop()
+{
+    actualFrame -> operandStack.pop();
     actualFrame -> increasePc(1);
 }
 

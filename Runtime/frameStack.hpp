@@ -71,6 +71,8 @@ class FrameStack{
         void printInt();
         void readString();
         void dup();
+        void pop();
+        void getStatic();
       
 
 
