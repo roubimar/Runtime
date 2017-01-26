@@ -10,10 +10,10 @@ class ClassFile;
 class ObjectHeap;
 
 class ClassHeap{
+        
 	private:
-        map<string, ClassFile *> classHeap;
 	public:
-                
+                map<string, ClassFile *> classHeap;
 		ClassFile * getClass(string className, ObjectHeap* objectHeap);
 		~ClassHeap();
 };

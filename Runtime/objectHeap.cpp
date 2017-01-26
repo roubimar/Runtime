@@ -16,6 +16,10 @@ ObjectHeap::ObjectHeap()
     heapSize = 100;
 }
 
+void ObjectHeap::setGarbageCollector(GarbageCollector* garbageCollector)
+{
+    this -> garbageCollector = garbageCollector;
+}
 ObjectHeap::~ObjectHeap()
 {
 }
@@ -25,6 +29,15 @@ u4 ObjectHeap::createObject(ClassFile* classFile)
         u4 objectSize	= classFile -> getObjectSize();
         
         u4 freeSpaceIndex = getFreeSpaceIndex(objectSize);
+        if(freeSpaceIndex == -1) 
+        {
+            garbageCollector->clean();
+            freeSpaceIndex = getFreeSpaceIndex(1);
+        }
+    
+        if(freeSpaceIndex == -1){
+            // NENI MISTO
+        }
         
         for (int i = freeSpaceIndex; i < freeSpaceIndex + objectSize; i++)
         {
@@ -42,6 +55,15 @@ u4 ObjectHeap::createObject(ClassFile* classFile)
 u4 ObjectHeap::createOperand()
 {
     u4 freeSpaceIndex = getFreeSpaceIndex(1);
+    if(freeSpaceIndex == -1) 
+    {
+        garbageCollector->clean();
+        freeSpaceIndex = getFreeSpaceIndex(1);
+    }
+    
+    if(freeSpaceIndex == -1){
+        // NENI MISTO
+    }
     heap[freeSpaceIndex] = new RefOperand(0);
     return freeSpaceIndex;
 }

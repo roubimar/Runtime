@@ -3,6 +3,7 @@
 
 #include "operand.hpp"
 #include "classFile.hpp"
+#include "GarbageCollector.hpp"
 
 using namespace std;
 
@@ -17,9 +18,11 @@ class ObjectHeap
         u4 nextObjectID;
         Operand ** heap;
         int heapSize;
+        GarbageCollector* garbageCollector;
         // Metody
         ObjectHeap();
         ~ObjectHeap();
+        void setGarbageCollector(GarbageCollector* garbageCollector);
         u4 createObject(ClassFile* classFile);
         u4 createOperand();
         u4 createStringObject(string val);

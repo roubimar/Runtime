@@ -7,4 +7,39 @@
         <activeConfTypeElem>0</activeConfTypeElem>
         <activeConfIndexElem>0</activeConfIndexElem>
     </data>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>intOperand.hpp</url>
+            <bookmark id="1">
+                <name/>
+                <line>12</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/classFile.cpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/definitions.hpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/frameStack.hpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/classFile.hpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/operand.cpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/refOperand.hpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/frameStack.cpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/frame.cpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/Makefile</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/classHeap.cpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/objectHeap.cpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/refOperand.cpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/main.cpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/intOperand.hpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/frame.hpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/intOperand.cpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/operand.hpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/stringOperand.cpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/objectHeap.hpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/classHeap.hpp</file>
+            <file>file:/home/daniel/Plocha/Runtime/Runtime/stringOperand.hpp</file>
+        </group>
+    </open-files>
 </project-private>

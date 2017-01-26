@@ -22,6 +22,8 @@ int main(int argc, char * argv[]){
     ClassHeap  * classHeap = new ClassHeap();
     FrameStack * frameStack;
     ObjectHeap * objectHeap = new ObjectHeap();
+    GarbageCollector * garbageCollector = new GarbageCollector(objectHeap, frameStack, classHeap);
+    objectHeap -> setGarbageCollector(garbageCollector);
 
     
     try {

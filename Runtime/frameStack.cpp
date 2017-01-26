@@ -550,7 +550,7 @@ u2 FrameStack::getNumberOfMethodParams(string p_description)
 u4 FrameStack::_new(u1 * p)
 {
         // index metody v konstant poolu
-        u2 methodRef = getu2(p[1]);
+        u2 methodRef = getu2(&p[1]);
         
         // z konstant poolu vybereme pozici na ktere  je metoda
         u1 * methodPosition = (u1*)actualFrame -> classFile -> constant_pool[methodRef];
