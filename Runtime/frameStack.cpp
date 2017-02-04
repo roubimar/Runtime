@@ -36,13 +36,13 @@ void FrameStack::execute()
 {
     actualFrame = framesStack.top();
     
-    if(classFile -> getMethod(actualFrame -> method_name, actualFrame -> method_description). access_flags & ACC_NATIVE )
+    if(actualFrame -> classFile -> getMethod(actualFrame -> method_name, actualFrame -> method_description). access_flags & ACC_NATIVE )
     {
 	executeNativeMethod();
 	return;
     }
     
-    method_info_w_code method = classFile->getMethod(actualFrame->method_name, actualFrame->method_description);
+    method_info_w_code method = actualFrame -> classFile->getMethod(actualFrame->method_name, actualFrame->method_description);
     
     while(true)
     {
@@ -50,6 +50,17 @@ void FrameStack::execute()
         switch (method.code_attr->code[actualFrame->pc]) {
             case 0x00:
                 actualFrame->increasePc(1);
+                break;
+            case 0x2a: //aload_0
+                aload(0);
+                break;
+            case 0x2b: //aload_1
+                aload(1);
+            case 0x2c: //aload_2
+                aload(2);
+                break;
+            case 0x2d: //aload_3
+                aload(3);
                 break;
             case 0x15: //iload
                 iload(method.code_attr->code[actualFrame -> pc + 1 ]);
@@ -255,6 +266,16 @@ void FrameStack::iadd()
 
 void FrameStack::def()
 {
+    actualFrame->increasePc(1);
+}
+
+/**
+ * nacteni Operandu z localVariable Framu do operandStacku Framu
+ * @param index: pozice v local variables
+ */
+void FrameStack::aload(int index)
+{
+    actualFrame->operandStack.push(actualFrame->loadVariable(index));
     actualFrame->increasePc(1);
 }
 
@@ -515,11 +536,17 @@ void FrameStack::ifIcmpge(u1 * p)
 void FrameStack::invoke(u1 * p, bool lessParams)
 {
     // index metody v konstant poolu
-    u2 methodRef = getu2(&p[actualFrame -> pc + 1]);
+    u2 methodRef = getu2(&p[1]);
 
     // z konstant poolu vybereme pozici na ktere  je metoda
     u1 * methodPosition = (u1*)actualFrame -> classFile -> constant_pool[methodRef];
 
+    u2 classIndex = getu2(methodPosition + 1);
+    u1 * classInfo = (u1*) actualFrame -> classFile -> constant_pool[classIndex];
+    u2 nameIndexClass = getu2(classInfo + 1);
+    string className;
+    actualFrame -> classFile -> getAttrName(nameIndexClass, className);
+    
     // na 4. pozici se nachazi name and type index, ktery ukazuje znovu do konstant poolu na jinou pozici, ktera obsahuje indexy na nazvem a navratovou hodnotou metody
     u2 nameAndTypeIndex = getu2(methodPosition + 3);
 
@@ -537,16 +564,17 @@ void FrameStack::invoke(u1 * p, bool lessParams)
    
     int numberOfparams = (short)getNumberOfMethodParams(methodDescription);
 
+    ClassFile* newClassFile = classHeap -> getClass("test/" + className, objectHeap);
     // vytvoreni noveho Framu a pridani na zasobnik
-    Frame * invokedFrame = new Frame(classFile, methodName, methodDescription, objectHeap);
+    Frame * invokedFrame = new Frame(newClassFile, methodName, methodDescription, objectHeap);
     
-    if(classFile -> getMethod(actualFrame -> method_name, actualFrame -> method_description). access_flags & ACC_NATIVE )
+    if(invokedFrame -> classFile -> getMethod(invokedFrame -> method_name, invokedFrame -> method_description). access_flags & ACC_NATIVE )
     {
-	executeNativeMethod();
-	return;
+	//executeNativeMethod();
+	//return;
     }
     
-    if(lessParams || classFile -> getMethod(invokedFrame -> method_name, actualFrame -> method_description). access_flags & ACC_NATIVE)
+    if(lessParams || invokedFrame -> classFile -> getMethod(invokedFrame -> method_name, invokedFrame -> method_description). access_flags & ACC_NATIVE)
     {
         numberOfparams--;
     }
@@ -562,6 +590,8 @@ void FrameStack::invoke(u1 * p, bool lessParams)
     framesStack.push(invokedFrame);
 
     execute();
+    
+    actualFrame->increasePc(1);
 }
 
 u2 FrameStack::getNumberOfMethodParams(string p_description)
@@ -605,7 +635,7 @@ u4 FrameStack::_new(u1 * p)
 	string className;
 	actualFrame -> classFile -> getAttrName(classNameIndex, className);
 
-        ClassFile* newClassFile = classHeap -> getClass(className, objectHeap);
+        ClassFile* newClassFile = classHeap -> getClass("test/" + className, objectHeap);
         ClassOperand* classOperand = new ClassOperand(newClassFile);
         
         actualFrame->operandStack.push(classOperand);

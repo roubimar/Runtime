@@ -27,7 +27,7 @@ int main(int argc, char * argv[]){
 
     
     try {
-        frameStack = new FrameStack(classHeap->getClass("Main", objectHeap), objectHeap, classHeap);
+        frameStack = new FrameStack(classHeap->getClass("test/Main", objectHeap), objectHeap, classHeap);
         
         frameStack->execute();
         

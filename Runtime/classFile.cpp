@@ -11,6 +11,7 @@ using namespace std;
 ClassFile::ClassFile(string classFileName, ClassHeap* pClassHeap, ObjectHeap* objectHeap) : classHeap(pClassHeap)
 {
 
+        cout << "File (" << classFileName << ") load!" << endl;
 	ifstream file;
 	int length;
 	char * p;

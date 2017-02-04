@@ -40,7 +40,6 @@
       <flagsDictionary>
         <element flagsID="0"
                  commonFlags="-mtune=generic -march=x86-64 -std=c++11 -fstack-protector-strong"/>
-        <element flagsID="1" commonFlags="-std=c++11"/>
       </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
@@ -57,7 +56,10 @@
         </preBuild>
       </makefileType>
       <item path="GarbageCollector.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="1">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="classFile.cpp" ex="false" tool="1" flavor2="8">
@@ -77,6 +79,7 @@
       <folder path="0/operands">
         <ccTool>
           <incDir>
+            <pElem>operands</pElem>
             <pElem>.</pElem>
           </incDir>
         </ccTool>
@@ -89,19 +92,29 @@
         </ccTool>
       </item>
       <item path="frameStack.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="1">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>operands</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="1">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="objectHeap.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="1">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="operands/classOperand.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="1">
+        <ccTool flags="0">
         </ccTool>
       </item>
       <item path="operands/intOperand.cpp" ex="false" tool="1" flavor2="8">
@@ -109,15 +122,15 @@
         </ccTool>
       </item>
       <item path="operands/operand.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="1">
+        <ccTool flags="0">
         </ccTool>
       </item>
       <item path="operands/refOperand.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="1">
+        <ccTool flags="0">
         </ccTool>
       </item>
       <item path="operands/stringOperand.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="1">
+        <ccTool flags="0">
         </ccTool>
       </item>
     </conf>

@@ -10,10 +10,10 @@ ClassFile * ClassHeap::getClass(string className, ObjectHeap * objectHeap)
 	it = classHeap.find(className);
 	if(it == classHeap.end())
 	{
-		ClassFile * insertClass = new ClassFile("test/" + className +".class", this, objectHeap);
-		classHeap . insert( pair<string, ClassFile *>(insertClass -> getName(), insertClass ) );
+		ClassFile * insertClass = new ClassFile(className +".class", this, objectHeap);
+		classHeap . insert( pair<string, ClassFile *>(className, insertClass ) );
 	}
-	return classHeap["test/" + className];
+	return classHeap[className];
 }
 
 ClassHeap::~ClassHeap()
