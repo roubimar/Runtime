@@ -40,6 +40,7 @@
       <flagsDictionary>
         <element flagsID="0"
                  commonFlags="-mtune=generic -march=x86-64 -std=c++11 -fstack-protector-strong"/>
+        <element flagsID="1" commonFlags="-std=c++11"/>
       </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
@@ -92,11 +93,7 @@
         </ccTool>
       </item>
       <item path="frameStack.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
-          <incDir>
-            <pElem>operands</pElem>
-            <pElem>.</pElem>
-          </incDir>
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="8">

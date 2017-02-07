@@ -56,6 +56,7 @@ void FrameStack::execute()
                 break;
             case 0x2b: //aload_1
                 aload(1);
+                break;
             case 0x2c: //aload_2
                 aload(2);
                 break;
@@ -93,6 +94,18 @@ void FrameStack::execute()
                 break;
             case 0x3e: //istore_3
                 istore(3);
+                break;
+            case 0x4b: //astore_0
+                astore(0);
+                break;
+            case 0x4c: //astore_1
+                astore(1);
+                break;
+            case 0x4d: //astore_2
+                astore(2);
+                break;
+            case 0x4e: //astore_3
+                astore(3);
                 break;
             case 0x02: //iconst_m1
                 iconst(-1);
@@ -207,7 +220,7 @@ void FrameStack::execute()
         }
     }
 }
-
+// TODO dodelat
 void FrameStack::getStatic()
 {
     actualFrame -> increasePc(3);
@@ -315,6 +328,17 @@ void FrameStack::istore(int index)
     actualFrame->increasePc(1);
 }
 
+/**
+ * Ulozeni Operandu z operandStacku do localVariables
+ * @param index: pozice, na kterou se ma Operand ulozit
+ */
+void FrameStack::astore(int index)
+{
+    actualFrame->storeVariable(index, actualFrame->operandStack.top());
+    actualFrame->operandStack.pop();
+    actualFrame->increasePc(1);
+}
+
 void FrameStack::iconst(int constant)
 {
     IntOperand * intOp = new IntOperand(constant);
@@ -325,7 +349,6 @@ void FrameStack::iconst(int constant)
 void FrameStack::ret()
 {
     framesStack.pop();
-    delete actualFrame;
     actualFrame = framesStack.top();
 }
 
@@ -564,7 +587,7 @@ void FrameStack::invoke(u1 * p, bool lessParams)
    
     int numberOfparams = (short)getNumberOfMethodParams(methodDescription);
 
-    ClassFile* newClassFile = classHeap -> getClass("test/" + className, objectHeap);
+    ClassFile* newClassFile = classHeap -> getClass(className, objectHeap);
     // vytvoreni noveho Framu a pridani na zasobnik
     Frame * invokedFrame = new Frame(newClassFile, methodName, methodDescription, objectHeap);
     
@@ -591,7 +614,7 @@ void FrameStack::invoke(u1 * p, bool lessParams)
 
     execute();
     
-    actualFrame->increasePc(1);
+    actualFrame->increasePc(3);
 }
 
 u2 FrameStack::getNumberOfMethodParams(string p_description)
@@ -635,7 +658,7 @@ u4 FrameStack::_new(u1 * p)
 	string className;
 	actualFrame -> classFile -> getAttrName(classNameIndex, className);
 
-        ClassFile* newClassFile = classHeap -> getClass("test/" + className, objectHeap);
+        ClassFile* newClassFile = classHeap -> getClass(className, objectHeap);
         ClassOperand* classOperand = new ClassOperand(newClassFile);
         
         actualFrame->operandStack.push(classOperand);

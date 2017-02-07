@@ -43,6 +43,7 @@ class FrameStack{
         void aload(int index);
         void iaload();
         void istore(int index);
+        void astore(int index);
         void iconst(int constant);
         void idiv();
         void ineg();
