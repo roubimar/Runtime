@@ -86,10 +86,7 @@
         </ccTool>
       </folder>
       <item path="frame.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="frameStack.cpp" ex="false" tool="1" flavor2="8">

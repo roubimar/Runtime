@@ -349,7 +349,10 @@ void FrameStack::iconst(int constant)
 void FrameStack::ret()
 {
     framesStack.pop();
-    actualFrame = framesStack.top();
+    if(!framesStack.empty())
+    {
+        actualFrame = framesStack.top();
+    }
 }
 
 void FrameStack::ireturn()
@@ -590,12 +593,6 @@ void FrameStack::invoke(u1 * p, bool lessParams)
     ClassFile* newClassFile = classHeap -> getClass(className, objectHeap);
     // vytvoreni noveho Framu a pridani na zasobnik
     Frame * invokedFrame = new Frame(newClassFile, methodName, methodDescription, objectHeap);
-    
-    if(invokedFrame -> classFile -> getMethod(invokedFrame -> method_name, invokedFrame -> method_description). access_flags & ACC_NATIVE )
-    {
-	//executeNativeMethod();
-	//return;
-    }
     
     if(lessParams || invokedFrame -> classFile -> getMethod(invokedFrame -> method_name, invokedFrame -> method_description). access_flags & ACC_NATIVE)
     {

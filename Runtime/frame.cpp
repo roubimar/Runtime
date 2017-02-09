@@ -19,8 +19,12 @@ Frame::Frame(ClassFile * classFile, string method_name, string method_descriptio
     if(!(classFile -> getMethod(method_name, method_description). access_flags & ACC_NATIVE ))
     {
 	maxLocals = classFile ->  getMethod(method_name, method_description) . code_attr -> max_locals;
-        initLocalVar();
+    } else {
+        maxLocals = 1;
     }
+    
+    initLocalVar();
+    
 }
 
 

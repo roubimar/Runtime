@@ -5,6 +5,8 @@
       <df name="bin">
       </df>
       <df name="java">
+        <df name="io">
+        </df>
         <df name="lang">
         </df>
       </df>
