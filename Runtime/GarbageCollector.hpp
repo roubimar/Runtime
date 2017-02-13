@@ -14,11 +14,11 @@
 #ifndef GARBAGECOLLECTOR_HPP
 #define GARBAGECOLLECTOR_HPP
 
-#include "objectHeap.hpp"
 #include "frameStack.hpp"
 #include <map>
 
 class FrameStack;
+class ObjectHeap;
 
 class GarbageCollector {
 public:

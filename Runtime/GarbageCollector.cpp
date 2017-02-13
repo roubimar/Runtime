@@ -10,7 +10,7 @@
  * 
  * Created on 26. ledna 2017, 9:11
  */
-
+#include <iostream>
 #include "GarbageCollector.hpp"
 
 GarbageCollector::GarbageCollector(ObjectHeap* objectHeap, FrameStack* frameStack, ClassHeap  * classHeap) {
@@ -23,6 +23,9 @@ GarbageCollector::~GarbageCollector() {
 }
 
 void GarbageCollector::markFrame(){
+    if(frameStack -> framesStack.empty()){
+        return;
+    }
     Frame* tmpFrame = frameStack -> framesStack.top();
     frameStack -> framesStack.pop();
     int * frameLocalVar = tmpFrame -> localVariables;
@@ -45,6 +48,13 @@ void GarbageCollector::markClass(ClassFile* classFile)
 
 void GarbageCollector::mark() 
 {
+    for (int i = 0; i < objectHeap -> heapSize; i++)
+    {
+        if(objectHeap->heap[i] != nullptr && objectHeap->heap[i] != NULL)
+        {
+            objectHeap->heap[i] -> mark = false;
+        }
+    }
     markFrame();
     
     for(map<string, ClassFile *>::iterator iter = classHeap -> classHeap.begin(); iter != classHeap -> classHeap.end(); iter++)
@@ -55,16 +65,17 @@ void GarbageCollector::mark()
 
 void GarbageCollector::sweep() 
 {
+    int counter = 0;
     for(int i = 0; i < objectHeap -> heapSize; i++)
     {
-        Operand* operand = objectHeap->heap[i];
-        if(!operand->mark)
+        if(objectHeap->heap[i] != nullptr && objectHeap->heap[i] != NULL && !objectHeap->heap[i]->mark)
         {
-            delete operand;
+            delete objectHeap->heap[i];
             objectHeap->heap[i] = nullptr;
+            counter++;
         } 
-        operand -> mark = false;
     }
+    cout << "Uvolneno: " << counter << endl;
 }
 
 void GarbageCollector::clean()

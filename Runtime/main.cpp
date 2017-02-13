@@ -22,13 +22,12 @@ int main(int argc, char * argv[]){
     ClassHeap  * classHeap = new ClassHeap();
     FrameStack * frameStack;
     ObjectHeap * objectHeap = new ObjectHeap();
+    frameStack = new FrameStack(classHeap->getClass("test/Main", objectHeap), objectHeap, classHeap);
     GarbageCollector * garbageCollector = new GarbageCollector(objectHeap, frameStack, classHeap);
     objectHeap -> setGarbageCollector(garbageCollector);
 
     
     try {
-        frameStack = new FrameStack(classHeap->getClass("test/Main", objectHeap), objectHeap, classHeap);
-        
         frameStack->execute();
         
     } catch(int e) {
@@ -38,10 +37,9 @@ int main(int argc, char * argv[]){
         return 1;
     }
     
-    cout << "DonexXxX: " << endl;
+    cout << "Done " << endl;
 
     delete classHeap;
-    printf("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\n");
     delete frameStack;
     return 0;
 

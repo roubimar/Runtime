@@ -7,8 +7,7 @@
 
 using namespace std;
 
-
-
+class GarbageCollector;
 #include <stdio.h>
 
 class ObjectHeap

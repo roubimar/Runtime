@@ -6,7 +6,7 @@ TARGET 		:= bin/jvm.exe
 TARGET2 	:= ./bin/jvm.exe
 
 SRCEXT    := cpp
-SOURCES   := $(wildcard $(SRCDIR)/*.$(SRCEXT)) $(wildcard $(SRCDIR)/operands/*.$(SRCEXT))
+SOURCES   := $(wildcard $(SRCDIR)/operands/*.$(SRCEXT)) $(wildcard $(SRCDIR)/*.$(SRCEXT)) 
 OBJECTS   := $(subst $(SRCDIR),$(BUILDDIR),$(SOURCES:.cpp=.o))
 
 CFLAGS := -g -std=c++11

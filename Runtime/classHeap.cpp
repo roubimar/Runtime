@@ -1,8 +1,8 @@
-
 #include "classHeap.hpp"
 #include "classFile.hpp"
 
 using namespace std;
+
 
 ClassFile * ClassHeap::getClass(string className, ObjectHeap * objectHeap)
 {
@@ -10,8 +10,9 @@ ClassFile * ClassHeap::getClass(string className, ObjectHeap * objectHeap)
 	it = classHeap.find(className);
 	if(it == classHeap.end())
 	{
-		ClassFile * insertClass = new ClassFile(className +".class", this, objectHeap);
-		classHeap . insert( pair<string, ClassFile *>(className, insertClass ) );
+            string classFileName = className +".class";
+            ClassFile * insertClass = new ClassFile(classFileName, this, objectHeap);
+            classHeap . insert( pair<string, ClassFile *>(className, insertClass ) );
 	}
 	return classHeap[className];
 }

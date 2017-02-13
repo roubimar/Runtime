@@ -109,6 +109,7 @@
       <item path="objectHeap.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
           <incDir>
+            <pElem>operands</pElem>
             <pElem>.</pElem>
           </incDir>
         </ccTool>
