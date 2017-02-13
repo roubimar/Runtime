@@ -21,6 +21,7 @@ public:
     
     StringOperand(string value);
     ~StringOperand();
+    Operand* clone();
 };
 
 #endif /* operand_hpp */

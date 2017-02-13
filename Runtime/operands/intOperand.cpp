@@ -18,3 +18,9 @@ IntOperand::~IntOperand()
 {
 }
 
+Operand* IntOperand::clone()
+{
+    return new IntOperand(val);
+}
+
+

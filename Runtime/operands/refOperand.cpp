@@ -18,3 +18,9 @@ RefOperand::~RefOperand()
 {
 }
 
+Operand* RefOperand::clone()
+{
+    return new RefOperand(index);
+}
+
+

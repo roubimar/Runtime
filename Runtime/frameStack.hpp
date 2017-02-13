@@ -47,6 +47,7 @@ class FrameStack{
         void iconst(int constant);
         void idiv();
         void ineg();
+        void isub();
         void ireturn();
         void imul();
         void ifeq(u1 * p);
@@ -63,6 +64,7 @@ class FrameStack{
         void ifIcmple(u1 * p);
         void _goto(u1 * p);
         void invoke(u1 * p, bool lessParams);
+        void getField(u1 * p);
         u2 getNumberOfMethodParams(string p_description);
         u4 _new(u1 * p);
         void ldc();
@@ -72,6 +74,7 @@ class FrameStack{
         void printString();
         void printInt();
         void readString();
+        void readInt();
         void dup();
         void pop();
         void getStatic();

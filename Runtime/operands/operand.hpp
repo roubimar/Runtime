@@ -6,6 +6,7 @@ public:
     bool mark;
     Operand();
     virtual ~Operand();
+    virtual Operand* clone();
 };
 
 #endif /* operand_hpp */

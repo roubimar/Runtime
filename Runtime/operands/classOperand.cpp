@@ -21,3 +21,8 @@ ClassOperand::ClassOperand(ClassFile* classFile)
 ClassOperand::~ClassOperand() {
 }
 
+Operand* ClassOperand::clone()
+{
+    return new ClassOperand(val);
+}
+

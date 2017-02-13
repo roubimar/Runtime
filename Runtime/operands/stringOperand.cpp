@@ -18,3 +18,9 @@ StringOperand::~StringOperand()
 {
 }
 
+Operand* StringOperand::clone()
+{
+    return new StringOperand(val);
+}
+
+

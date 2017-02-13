@@ -21,6 +21,7 @@ public:
     
     IntOperand(int value);
     ~IntOperand();
+    Operand* clone();
 };
 
 #endif /* operand_hpp */

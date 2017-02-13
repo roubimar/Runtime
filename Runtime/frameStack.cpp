@@ -213,6 +213,12 @@ void FrameStack::execute()
             case 0xb2: //getstatic
                 getStatic();
                 break;
+            case 0xb4:
+                getField(method.code_attr->code + actualFrame -> pc);
+                break;
+            case 0x64: //isub
+                isub();
+		break;
             default:
                 def();
                 break;
@@ -220,6 +226,7 @@ void FrameStack::execute()
         }
     }
 }
+
 // TODO dodelat
 void FrameStack::getStatic()
 {
@@ -264,6 +271,10 @@ void FrameStack::_goto(u1 * p)
     short offset = (firstBranchByte << 8) | secondBranchByte;
     actualFrame->increasePc(offset);
 }
+
+/**
+ * scitani integeru
+ */
 void FrameStack::iadd()
 {
     IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
@@ -272,7 +283,23 @@ void FrameStack::iadd()
     IntOperand* secondOp = (IntOperand*)actualFrame->operandStack.top();
     actualFrame->operandStack.pop();
     
-    IntOperand * result = new IntOperand(firstOp -> val+ secondOp -> val);
+    IntOperand * result = new IntOperand(firstOp -> val + secondOp -> val);
+    actualFrame->operandStack.push(result);
+    actualFrame->increasePc(1);
+}
+
+/**
+ * odecitani integeru
+ */
+void FrameStack::isub()
+{
+    IntOperand* firstOp = (IntOperand*)actualFrame->operandStack.top();
+    actualFrame->operandStack.pop();
+    
+    IntOperand* secondOp = (IntOperand*)actualFrame->operandStack.top();
+    actualFrame->operandStack.pop();
+    
+    IntOperand * result = new IntOperand(secondOp -> val - firstOp -> val);
     actualFrame->operandStack.push(result);
     actualFrame->increasePc(1);
 }
@@ -614,6 +641,37 @@ void FrameStack::invoke(u1 * p, bool lessParams)
     actualFrame->increasePc(3);
 }
 
+void FrameStack::getField(u1 * p)
+{
+    // index pole v konstant poolu
+    u2 fieldRef = getu2(&p[1]);
+    
+    // z konstant poolu vybereme pozici na ktere je pole
+    u1 * fieldPosition = (u1*)actualFrame -> classFile -> constant_pool[fieldRef];
+
+    // na 4. pozici se nachazi name and type index, ktery ukazuje znovu do konstant poolu na jinou pozici, ktera obsahuje indexy na nazvem a navratovou hodnotou metody
+    u2 nameAndTypeIndex = getu2(fieldPosition + 3);
+
+    // ukazatel na strukturu, ktera obsahuje indexy na nazev a navratovou hodnotu metody
+    u1 *nameAndTypeInfo = (u1*)actualFrame -> classFile -> constant_pool[nameAndTypeIndex];
+
+    // ziskani samotneho indexu nazvu
+    u2 fieldNameIndex = getu2(nameAndTypeInfo + 1);
+    
+    //  z indexu ziskame nazev pole
+    std::string fieldName;
+    actualFrame -> classFile -> getAttrName(fieldNameIndex, fieldName);
+
+    Operand * operand = actualFrame -> operandStack.top();
+    actualFrame -> operandStack.pop();
+
+    operand = operand -> clone();
+
+    actualFrame -> operandStack.push(operand);
+    
+    actualFrame->increasePc(3);
+}
+
 u2 FrameStack::getNumberOfMethodParams(string p_description)
 {
 	u2 	count = 0;
@@ -721,6 +779,13 @@ void FrameStack::executeNativeMethod()
             {
 		readString();
             } 
+            else 
+            {
+                if(methodSignature.compare("test/our/objects/StdInputReader.readInt:()I") == 0) 
+                {
+                    readInt();
+                } 
+            }
         }
     }
 }
@@ -754,8 +819,13 @@ void FrameStack::readString()
     actualFrame = framesStack.top();
 }
 
-
-
-
-
-   
+void FrameStack::readInt()
+{
+    int input;
+    cin >> input;
+    IntOperand* operand = new IntOperand(input);
+    
+    framesStack.pop();
+    framesStack.top() -> operandStack.push(operand);
+    actualFrame = framesStack.top();
+}

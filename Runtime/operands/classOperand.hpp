@@ -12,6 +12,7 @@ public:
     ClassFile * val;
     ClassOperand(ClassFile* classFile);
     ~ClassOperand();
+    Operand* clone();
 private:
 
 };

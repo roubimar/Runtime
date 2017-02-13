@@ -13,6 +13,7 @@ public:
     
     RefOperand(int index);
     ~RefOperand();
+    Operand* clone();
 };
 
 #endif 
