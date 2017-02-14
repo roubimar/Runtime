@@ -22,7 +22,7 @@ int main(int argc, char * argv[]){
     ClassHeap  * classHeap = new ClassHeap();
     FrameStack * frameStack;
     ObjectHeap * objectHeap = new ObjectHeap();
-    frameStack = new FrameStack(classHeap->getClass("test/Main", objectHeap), objectHeap, classHeap);
+    frameStack = new FrameStack(classHeap->getClass(argv[1], objectHeap), objectHeap, classHeap);
     GarbageCollector * garbageCollector = new GarbageCollector(objectHeap, frameStack, classHeap);
     objectHeap -> setGarbageCollector(garbageCollector);
 

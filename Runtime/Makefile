@@ -26,10 +26,6 @@ clean:
 	@echo " Cleaning..."; 
 	@echo " $(RM) -r $(TARGET2)"; $(RM) -r $(TARGET2)
 
-# Tests
-#tester:
-#	$(CC) $(CFLAGS) test/tester.cpp $(INC) $(LIB) -o bin/tester
-
 .PHONY: clean
 
 
