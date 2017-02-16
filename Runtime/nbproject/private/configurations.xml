@@ -88,8 +88,9 @@
         <runcommandpicklist>
           <runcommandpicklistitem>"${OUTPUT_PATH}" gyugigyui</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" test/Main</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}"</runcommand>
+        <runcommand>"${OUTPUT_PATH}" test/Main</runcommand>
         <arguments>gyugigyui</arguments>
         <rundir>.</rundir>
         <buildfirst>true</buildfirst>

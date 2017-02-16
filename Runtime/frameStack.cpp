@@ -63,6 +63,10 @@ void FrameStack::execute()
             case 0x2d: //aload_3
                 aload(3);
                 break;
+            case 0x19: //aload
+                aload(method.code_attr->code[actualFrame -> pc + 1 ]);
+                actualFrame->increasePc(1);
+                break;
             case 0x15: //iload
                 iload(method.code_attr->code[actualFrame -> pc + 1 ]);
                 actualFrame->increasePc(1);
@@ -77,7 +81,7 @@ void FrameStack::execute()
                 iload(2);
                 break;
             case 0x1d: //iload_3
-                iload(2);
+                iload(3);
                 break;
             case 0x36:
                 istore(method.code_attr->code[actualFrame -> pc + 1 ]);
